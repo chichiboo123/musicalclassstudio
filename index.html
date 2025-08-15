@@ -1,0 +1,449 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans KR', Arial, sans-serif;
+  padding: 20px;
+  background: #eaf3ff;
+  text-align: center;
+}
+h1{ color:#1e40af }
+button{
+  background:#2563eb; color:white; border:0; padding:10px 18px; border-radius:10px;
+}
+button:hover{ filter:brightness(.95) }</style></head>
+<body><!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>뮤지컬 수업 스튜디오</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root{--bg:#f6f7fb;--panel:#ffffffee;--text:#0f172a;--muted:#4b5563;--brand:#3b82f6;--brand-2:#8b5cf6;--card:#ffffff;--accent:#e8edff;--border:#e5e7eb;--shadow:0 10px 30px rgba(0,0,0,.08);--btn-grad:linear-gradient(180deg,#fff,#f3f4f6);--btn-primary:linear-gradient(180deg,#3b82f6,#6366f1);--link:#1d4ed8;--dashed:#dbe2f1;--step-bg:#eef2ff;--step-active:#dbeafe;--badge:#e6ecff;--header-h:120px;--radius:16px;}
+  [data-theme="dark"]{--bg:#0b0e14;--panel:#121826ee;--text:#e6e9ef;--muted:#a7afbc;--brand:#6a9bff;--brand-2:#9a7ffb;--card:#161d2c;--accent:#1f2a44;--border:#2a3654;--shadow:0 10px 30px rgba(0,0,0,.35);--btn-grad:linear-gradient(180deg,#1b2436,#141b2a);--btn-primary:linear-gradient(180deg,#476bff,#5a50ff);--link:#c7cffc;--dashed:#2a3756;--step-bg:#1b2640;--step-active:#151d30;--badge:#314572}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:18px/1.6 "Pretendard",-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Apple SD Gothic Neo,Noto Sans KR,Helvetica,Arial,sans-serif;letter-spacing:.1px;padding-top:var(--header-h)}
+  header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--panel);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+  .wrap{max-width:1200px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px}
+  .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .logo-img{height:96px;display:block}
+  .sr-only{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+  .head-actions{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  button,.btn{appearance:none;border:1px solid var(--border);color:var(--text);background:var(--btn-grad);padding:12px 14px;border-radius:12px;cursor:pointer;box-shadow:var(--shadow);transition:all .15s;font-weight:700;font-size:1rem;display:inline-flex;gap:8px;align-items:center}
+  button:hover,.btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:var(--btn-primary);border-color:transparent;color:#fff}
+  .ico{width:18px;height:18px;display:inline-block}.label{display:inline}
+  .seg{display:flex;border:1px solid var(--border);border-radius:12px;overflow:hidden}.seg button{border:0;background:transparent;padding:10px 12px;font-weight:700}.seg button.active{background:var(--accent)}
+  .layout{max-width:1200px;margin:22px auto;padding:0 18px;display:grid;grid-template-columns:300px 1fr;gap:18px}
+  aside{position:sticky;top:calc(var(--header-h) + 24px);align-self:start;background:transparent;border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+  .aside-box{margin-top:12px;border:1px solid var(--border);border-radius:var(--radius);padding:12px;background:var(--card);box-shadow:var(--shadow)}
+  .aside-box h4{margin:0 0 6px;font-size:0.95rem}.aside-box p,.aside-box .muted{font-size:.85rem}.aside-box a{color:var(--link);text-decoration:none}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--step-bg);border:1px solid var(--border);color:var(--text);font-weight:800}
+  .step-list{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:6px}
+  .step{display:flex;gap:10px;align-items:center;padding:10px;border-radius:12px;cursor:pointer;border:1px solid transparent;color:var(--muted);background:transparent}
+  .step:hover{background:var(--step-active);color:var(--text);border-color:var(--border)}
+  .step .num{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;font-weight:800;background:#dbeafe;color:#1e3a8a;border:1px solid #bfdbfe}
+  .step span{white-space:nowrap}
+  [lang="en"] aside .step span{font-size:.9rem}
+  [data-theme="dark"] .step .num{background:#23304d;color:#cdd8ff;border:1px solid #2c3b60}
+  main{display:flex;flex-direction:column;gap:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .card .head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+  .card .head h2{margin:0;font-size:1.1rem}
+  .card .body{padding:16px 18px;display:grid;gap:14px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  label{display:block;font-weight:800;color:var(--text);margin-bottom:6px}
+  .muted{color:var(--muted);font-size:.95rem}
+  input[type="text"],textarea,select{width:100%;background:#fff;border:1px solid var(--border);color:var(--text);border-radius:12px;padding:12px 14px;outline:none;transition:border .15s;font-size:1rem}
+  [data-theme="dark"] input[type="text"],[data-theme="dark"] textarea,[data-theme="dark"] select{background:#0f1422;color:#e6e9ef}
+  textarea{min-height:110px;resize:vertical}
+  input[type="text"]:focus,textarea:focus,select:focus{border-color:#415a96}
+  .preview{background:#f8fafc;border:1px dashed var(--dashed);border-radius:12px;padding:16px}
+  [data-theme="dark"] .preview{background:#101728}
+  .activity-col{border:1px dashed var(--dashed);border-radius:14px;padding:12px;background:transparent;position:relative}
+  .activity-col h3{margin:0 0 8px;font-size:1rem;padding-left:36px}
+  .badge{position:absolute;top:12px;left:12px;width:26px;height:26px;border-radius:8px;background:var(--badge);display:grid;place-items:center;font-weight:900;color:#1e3a8a;border:1px solid var(--border)}
+  [data-theme="dark"] .badge{color:#cdd8ff}
+  .activity-item{margin-top:10px;padding:10px;border:1px solid var(--border);border-radius:12px;background:#f9fafb}
+  [data-theme="dark"] .activity-item{background:rgba(0,0,0,.05)}
+  .activity-item .row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+  .activity-item textarea{min-height:56px}
+  .icon-btn{background:transparent;border:1px dashed var(--border);border-radius:10px;padding:6px 10px;cursor:pointer;color:var(--text);font-size:1rem}
+  .icon-btn:hover{background:var(--accent)}
+  .models{display:grid;grid-template-columns:1fr;gap:8px}
+  .model-row{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);padding:10px;border-radius:12px;background:#fafafa;text-align:left}
+  [data-theme="dark"] .model-row{background:rgba(0,0,0,.05)}
+  .model-row .muted{text-align:left;display:block}
+  .canvas-wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
+  .canvas-box{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;position:relative}
+  canvas{display:block;width:100%;height:var(--canvas-h,0px);background:#fff;touch-action:none}
+  .tools{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fafafa;position:relative}
+  [data-theme="dark"] .tools{background:rgba(0,0,0,.05)}
+  .tool-row{display:flex;gap:12px;align-items:center;margin:18px 0}
+  .tool-row input[type="color"]{width:46px;height:36px;padding:0;border:1px solid var(--border);border-radius:8px;background:#fff}
+  .preview-header{text-align:center}.preview section{text-align:left}
+  .preview-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .mobile-nav{display:none}
+  .mobile-nav .chips{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .mobile-nav .chips::-webkit-scrollbar{display:none}
+  .mobile-nav .chip{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:var(--step-bg);font-weight:800}
+  .mobile-nav .chip .num{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:#dbeafe;color:#1e3a8a;border:1px solid #bfdbfe;font-size:.85rem}
+  .mobile-nav .right{display:flex;gap:8px}
+  @media print{header,aside,.no-print{display:none!important}body{background:#fff;color:#000;padding-top:0}.card{border:none;box-shadow:none}}
+  @media (max-width:980px){
+    :root{--header-h:86px}
+    .logo-img{height:60px}
+    .layout{grid-template-columns:1fr;padding-bottom:92px}
+    aside{display:none}
+    .canvas-wrap{grid-template-columns:1fr}
+    .head-actions .label{display:none}
+    .head-actions .btn{padding:10px 12px}
+    .mobile-nav{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:1100;background:var(--panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:10px;align-items:center;justify-content:space-between}
+    .mobile-nav .chips{max-width:calc(100% - 70px)}
+  }
+  footer.page-footer{margin:40px 0 30px;text-align:center;color:var(--muted)}
+  footer.page-footer a{color:var(--link);text-decoration:none}
+  .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.45);z-index:1500}
+  .modal .panel{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);width:min(520px,92%);padding:16px}
+  .radio-row{display:flex;gap:10px;align-items:center;padding:8px;border:1px solid var(--border);border-radius:12px;margin:6px 0;background:#fafafa}
+  [data-theme="dark"] .radio-row{background:rgba(0,0,0,.05)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="logo" data-action="home" title="Home">
+      <img id="siteLogo" class="logo-img" src="https://i.ibb.co/fgrZqfM/001-6.png" alt="뮤지컬 수업 스튜디오 로고" />
+      <span class="sr-only">뮤지컬 수업 스튜디오</span>
+    </div>
+    <div class="head-actions">
+      <button class="btn" data-action="exportOpen" aria-label="Export">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0l-3-3m3 3l3-3M5 15v4a2 2 0 002 2h10a2 2 0 002-2v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="label" data-i18n="export">내보내기</span>
+      </button>
+      <input id="jsonUpload" type="file" accept=".json" style="display:none" />
+      <button class="btn" data-action="openFile" aria-label="Open File">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 4h10l6 6v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" stroke-width="2"/><path d="M14 4v6h6" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="label" data-i18n="open_file">파일 열기</span>
+      </button>
+      <button class="btn" data-action="share" aria-label="Copy Share Link">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 12v7a1 1 0 001 1h7M20 12V5a1 1 0 00-1-1h-7" stroke="currentColor" stroke-width="2"/><path d="M8 16l8-8" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="label" data-i18n="share">공유 링크 복사</span>
+      </button>
+      <button class="btn" data-action="reset" aria-label="Reset">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 4v6h6M20 20v-6h-6" stroke="currentColor" stroke-width="2"/><path d="M20 14a8 8 0 11-6-10" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="label" data-i18n="reset">초기화</span>
+      </button>
+      <div class="seg" title="Theme">
+        <button data-action="theme:dark">🌙</button>
+        <button data-action="theme:light" class="active">☀️</button>
+      </div>
+      <div class="seg" title="Language">
+        <button data-action="lang:KOR" class="active">KOR</button>
+        <button data-action="lang:ENG">ENG</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav no-print" id="mnav">
+  <div class="chips">
+    <button class="chip js-nav" data-target="meta"><span class="num">0</span><span data-i18n="nav0">프로젝트 정보</span></button>
+    <button class="chip js-nav" data-target="s1"><span class="num">1</span><span data-i18n="nav1">자유로운 상상</span></button>
+    <button class="chip js-nav" data-target="s2"><span class="num">2</span><span data-i18n="nav2">수업 모델 선정</span></button>
+    <button class="chip js-nav" data-target="s3"><span class="num">3</span><span data-i18n="nav3">구성 요소 선정</span></button>
+    <button class="chip js-nav" data-target="s4"><span class="num">4</span><span data-i18n="nav4">교육과정 연계</span></button>
+    <button class="chip js-nav" data-target="s5"><span class="num">5</span><span data-i18n="nav5">수업 활동 구성</span></button>
+    <button class="chip js-nav" data-target="s6"><span class="num">6</span><span data-i18n="nav6">자료탐색/브랜딩</span></button>
+    <button class="chip js-nav" data-target="preview"><span class="num">✓</span><span data-i18n="nav7">미리보기</span></button>
+  </div>
+  <div class="right">
+    <button class="btn" style="padding:8px 10px" data-action="openRefs" aria-label="References">ⓘ</button>
+  </div>
+</div>
+
+<div class="layout">
+  <aside>
+    <div class="pill" data-i18n="progress">진행 단계</div>
+    <ul class="step-list" id="stepList">
+      <li class="step js-nav" data-target="meta"><span class="num">0</span><span data-i18n="nav0">프로젝트 정보</span></li>
+      <li class="step js-nav" data-target="s1"><span class="num">1</span><span data-i18n="nav1">자유로운 상상</span></li>
+      <li class="step js-nav" data-target="s2"><span class="num">2</span><span data-i18n="nav2">수업 모델 선정</span></li>
+      <li class="step js-nav" data-target="s3"><span class="num">3</span><span data-i18n="nav3">구성 요소 선정</span></li>
+      <li class="step js-nav" data-target="s4"><span class="num">4</span><span data-i18n="nav4">교육과정 연계</span></li>
+      <li class="step js-nav" data-target="s5"><span class="num">5</span><span data-i18n="nav5">수업 활동 구성</span></li>
+      <li class="step js-nav" data-target="s6"><span class="num">6</span><span data-i18n="nav6">자료탐색/브랜딩</span></li>
+      <li class="step js-nav" data-target="preview"><span class="num">✓</span><span data-i18n="nav7">미리보기</span></li>
+    </ul>
+
+    <div class="aside-box" id="refsBox">
+      <h4 data-i18n="ref_title">내용 출처</h4>
+      <p>📚 <a href="https://search.shopping.naver.com/book/search?bookTabType=ALL&pageIndex=1&pageSize=40&query=%EC%84%B8%EC%83%81%EC%97%90%EC%84%9C%20%EA%B0%80%EC%9E%A5%20%EC%89%AC%EC%9A%B4%20%EB%AE%A4%EC%A7%80%EC%BB%AC%20%EC%88%98%EC%97%85&sort=REL" target="_blank" rel="noopener">세상에서 가장 쉬운 뮤지컬 수업</a><br /><span class="muted">(푸른칠판, 원치수)</span></p>
+      <p>📚 <a href="https://q-shop.kr/shop_view/?idx=180" target="_blank" rel="noopener">뮤지컬 창작 노트</a><br /><span class="muted">(사자가온다, 원치수)</span></p>
+    </div>
+  </aside>
+
+  <main>
+    <section class="card section" id="meta">
+      <div class="head"><h2 data-i18n="proc0">프로젝트 정보</h2></div>
+      <div class="body grid-2">
+        <div><label for="title" data-i18n="title">수업/프로젝트 이름</label><input type="text" id="title" placeholder="예) 감정으로 만드는 우리 반 뮤지컬" /></div>
+        <div><label for="teacher" data-i18n="teacher">기획자</label><input type="text" id="teacher" placeholder="교육뮤지컬 꿈꾸는 치수쌤" /></div>
+        <div><label for="grade" data-i18n="grade">대상/학년</label><input type="text" id="grade" placeholder="예) 초등 5학년 1반" /></div>
+        <div><label for="period" data-i18n="period">운영 기간/차시</label><input type="text" id="period" placeholder="예) 4주 / 8차시" /></div>
+        <div class="grid-2" style="grid-column:1/-1">
+          <div><label for="goals" data-i18n="goals">핵심 목표</label><textarea id="goals"></textarea></div>
+          <div><label for="notes" data-i18n="notes">메모</label><textarea id="notes"></textarea></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="s1">
+      <div class="head"><h2 data-i18n="proc1">[과정 1] 자유로운 상상</h2></div>
+      <div class="body grid-2">
+        <div><label for="s1_keywords" data-i18n="s1_kw">1. 키워드 떠올리기</label><textarea id="s1_keywords"></textarea></div>
+        <div><label for="s1_assoc" data-i18n="s1_assoc">2. 키워드 연상하기</label><textarea id="s1_assoc"></textarea></div>
+        <div style="grid-column:1/-1"><label for="s1_one" data-i18n="s1_sentence">3. 한 문장 정리</label><input type="text" id="s1_one" /></div>
+      </div>
+    </section>
+
+    <section class="card section" id="s2">
+      <div class="head"><h2 data-i18n="proc2">[과정 2] 수업 모델 선정</h2></div>
+      <div class="body">
+        <div style="margin-bottom:6px"><label for="s2_dir" data-i18n="s2_dir">1. 내가 상상한 수업의 방향</label><textarea id="s2_dir"></textarea></div>
+        <div class="grid-2">
+          <div>
+            <div class="models">
+              <div class="model-row"><input type="checkbox" id="m1" /><div style="flex:1"><label for="m1"><b data-i18n="model1_name">감상중심 뮤지컬수업</b></label><div class="muted" data-i18n="model1_desc">작품 감상 중심으로 다양한 활동 전개</div></div></div>
+              <div class="model-row"><input type="checkbox" id="m2" /><div style="flex:1"><label for="m2"><b data-i18n="model2_name">창작중심 뮤지컬수업</b></label><div class="muted" data-i18n="model2_desc">뮤지컬 창작 경험을 목표로 함</div></div></div>
+              <div class="model-row"><input type="checkbox" id="m3" /><div style="flex:1"><label for="m3"><b data-i18n="model3_name">공연중심 뮤지컬수업</b></label><div class="muted" data-i18n="model3_desc">무대에서의 공연을 목표로 운영</div></div></div>
+              <div class="model-row"><input type="checkbox" id="m4" /><div style="flex:1"><label for="m4"><b data-i18n="model4_name">콘텐츠 창작중심 뮤지컬수업</b></label><div class="muted" data-i18n="model4_desc">작품 기반의 다양한 콘텐츠를 제작</div></div></div>
+              <div class="model-row"><input type="checkbox" id="mEtcChk" /><div style="flex:1"><label for="mEtcChk"><b data-i18n="model_etc">기타 모델</b></label><input type="text" id="mEtc" placeholder="나만의 뮤지컬 수업모델" /></div></div>
+            </div>
+          </div>
+          <div><label for="s2_model_reason" data-i18n="s2_reason">2. 모델 선택 이유</label><textarea id="s2_model_reason" style="min-height:calc(110px * 2 + 48px)"></textarea></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="s3">
+      <div class="head"><h2 data-i18n="proc3">[과정 3] 구성 요소 선정</h2></div>
+      <div class="body grid-3">
+        <div><label for="s3_me" data-i18n="s3_me">1. 나의 강점</label><textarea id="s3_me"></textarea></div>
+        <div><label for="s3_students" data-i18n="s3_students">2. 학생 강점</label><textarea id="s3_students"></textarea></div>
+        <div><label for="s3_connect" data-i18n="s3_connect">3. 뮤지컬 구성요소 연결</label><textarea id="s3_connect" placeholder="이야기/음악/연기/무대미술/디지털 등 연결"></textarea></div>
+      </div>
+    </section>
+
+    <section class="card section" id="s4">
+      <div class="head"><h2 data-i18n="proc4">[과정 4] 교육과정 연계</h2></div>
+      <div class="body grid-2">
+        <div><label for="s4_content" data-i18n="s4_content">1. 내용 요소 찾기</label><textarea id="s4_content"></textarea></div>
+        <div><label for="s4_std" data-i18n="s4_std">2. 성취기준 탐색 및 분석</label><textarea id="s4_std"></textarea></div>
+        <div><label for="s4_link" data-i18n="s4_link">3. 성취기준 연결</label><textarea id="s4_link"></textarea></div>
+        <div><label for="s4_flow" data-i18n="s4_flow">4. 수업 흐름(요약)</label><textarea id="s4_flow"></textarea></div>
+      </div>
+    </section>
+
+    <section class="card section" id="s5">
+      <div class="head"><h2 data-i18n="proc5">[과정 5] 수업 활동 구성</h2></div>
+      <div class="body grid-2">
+        <div class="activity-col" id="col_prepare"><span class="badge">1</span><h3 data-i18n="prep_title">준비하기(마음 열기)</h3><button class="icon-btn no-print" data-action="addAct:prepare">＋ <span data-i18n="add_activity">활동 추가</span></button><div class="list" id="list_prepare"></div></div>
+        <div class="activity-col" id="col_discover"><span class="badge">2</span><h3 data-i18n="disc_title">떠올리기(주제·소재 탐색)</h3><button class="icon-btn no-print" data-action="addAct:discover">＋ <span data-i18n="add_activity">활동 추가</span></button><div class="list" id="list_discover"></div></div>
+        <div class="activity-col" id="col_create"><span class="badge">3</span><h3 data-i18n="expr_title">표현하기(창작)</h3><button class="icon-btn no-print" data-action="addAct:create">＋ <span data-i18n="add_activity">활동 추가</span></button><div class="list" id="list_create"></div></div>
+        <div class="activity-col" id="col_share"><span class="badge">4</span><h3 data-i18n="share_title2">나누기(공유)</h3><button class="icon-btn no-print" data-action="addAct:share">＋ <span data-i18n="add_activity">활동 추가</span></button><div class="list" id="list_share"></div></div>
+      </div>
+    </section>
+
+    <section class="card section" id="s6">
+      <div class="head"><h2 data-i18n="proc6">[과정 6] 자료탐색/브랜딩</h2></div>
+      <div class="body grid-2">
+        <div><label for="s6_res" data-i18n="s6_res">1. 수업에 필요한 자료</label><textarea id="s6_res"></textarea></div>
+        <div><label for="s6_edge" data-i18n="s6_edge">2. 내 수업의 매력</label><textarea id="s6_edge"></textarea></div>
+        <div><label for="s6_name" data-i18n="s6_name">3. 이름 만들기</label><textarea id="s6_name" style="min-height:110px"></textarea></div>
+        <div><label for="s6_visual_text" data-i18n="s6_visual_text">4. 이미지화(텍스트)</label><textarea id="s6_visual_text"></textarea></div>
+        <div style="grid-column:1/-1">
+          <label data-i18n="s6_visual_media">4-1) 이미지화(업로드/그리기)</label>
+          <div class="canvas-wrap">
+            <div class="canvas-box"><canvas id="brandCanvas" width="1920" height="1080"></canvas></div>
+            <div class="tools" id="toolsBox">
+              <div class="tool-row"><b data-i18n="draw_tools">그리기 도구</b></div>
+              <div class="tool-row"><label data-i18n="brush_color">브러시 색</label><input type="color" id="brushColor" value="#111827" /></div>
+              <div class="tool-row"><label data-i18n="brush_size">브러시 굵기</label><input type="range" id="brushSize" min="1" max="80" value="6" /><span id="brushSizeVal">6</span></div>
+              <div class="tool-row">
+                <button class="btn" data-action="drawMode:draw" data-i18n="mode_draw">펜</button>
+                <button class="btn" data-action="drawMode:erase" data-i18n="mode_erase">지우개</button>
+                <button class="btn" data-action="clearCanvas" data-i18n="clear_canvas">캔버스 지우기</button>
+              </div>
+              <div class="tool-row">
+                <label class="btn" id="fileBtn" data-action="clickUpload">파일 선택</label>
+                <span class="muted" id="fileName" data-i18n="no_file">선택된 파일 없음</span>
+                <input type="file" id="imgUpload" accept="image/*" style="display:none" />
+              </div>
+              <div class="muted" id="canvasHint" style="display:none" data-i18n="canvas_hint">※ Drawing/uploads are automatically included in result/JSON.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="preview">
+      <div class="head"><h2 data-i18n="preview">결과 미리보기</h2></div>
+      <div class="body">
+        <div class="preview" id="previewBox">
+          <div class="preview-header">
+            <div id="pvTitle" style="font-size:1.15rem;font-weight:800"></div>
+            <div id="pvMeta" class="muted"></div>
+          </div>
+          <div id="pvContent"></div>
+        </div>
+        <div class="preview-actions no-print">
+          <button class="btn" data-action="refreshPreview" data-i18n="refresh_preview">미리보기 최신화</button>
+          <button class="btn" data-action="copyTxt" data-i18n="copy_text">미리보기 텍스트 복사</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer class="page-footer no-print">
+  created by. <a href="https://litt.ly/chichiboo" target="_blank" rel="noopener">교육뮤지컬 꿈꾸는 치수쌤</a>
+</footer>
+
+<div class="modal" id="exportModal" aria-hidden="true">
+  <div class="panel">
+    <h3 data-i18n="choose_export">내보내기 형식 선택</h3>
+    <label class="radio-row"><input type="radio" name="expfmt" value="json" checked /> <span>JSON</span></label>
+    <label class="radio-row"><input type="radio" name="expfmt" value="txt" /> <span>TXT</span></label>
+    <label class="radio-row"><input type="radio" name="expfmt" value="pdf" /> <span>PDF (한글지원)</span></label>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+      <button class="btn" data-action="exportCancel" data-i18n="cancel">취소</button>
+      <button class="btn btn-primary" data-action="exportOk" data-i18n="export">내보내기</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="refModal" aria-hidden="true">
+  <div class="panel">
+    <h3 data-i18n="ref_title">내용 출처</h3>
+    <div id="refModalBody"></div>
+    <div style="margin-top:12px;color:var(--muted);text-align:center">
+      created by. <a href="https://litt.ly/chichiboo" target="_blank" rel="noopener">교육뮤지컬 꿈꾸는 치수쌤</a>
+    </div>
+    <div style="text-align:right;margin-top:10px">
+      <button class="btn" data-action="closeRefs">OK</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const LOGO={KOR:"https://i.ibb.co/fgrZqfM/001-6.png",ENG:"https://i.ibb.co/9m2TP3GP/002-2.png"};
+const mmToPx=mm=>Math.round(mm*96/25.4);
+const STATE_KEYS=["title","teacher","grade","period","goals","notes","s1_keywords","s1_assoc","s1_one","s2_dir","s2_model_reason","s3_me","s3_students","s3_connect","s4_content","s4_std","s4_link","s4_flow","s6_res","s6_edge","s6_name","s6_visual_text","models","brandCanvasData"];
+function defaultState(){return{title:"",teacher:"",grade:"",period:"",goals:"",notes:"",s1_keywords:"",s1_assoc:"",s1_one:"",s2_dir:"",s2_model_reason:"",s3_me:"",s3_students:"",s3_connect:"",s4_content:"",s4_std:"",s4_link:"",s4_flow:"",s6_res:"",s6_edge:"",s6_name:"",s6_visual_text:"",models:{m1:false,m2:false,m3:false,m4:false,etc:false,etcText:""},brandCanvasData:"",acts:{prepare:[],discover:[],create:[],share:[]}};}
+let STATE=defaultState(), LANG="KOR", THEME="light";
+const I18N={
+  KOR:{site_name:"뮤지컬 수업 스튜디오",share:"공유 링크 복사",export:"내보내기",open_file:"파일 열기",reset:"초기화",progress:"진행 단계",nav0:"프로젝트 정보",nav1:"자유로운 상상",nav2:"수업 모델 선정",nav3:"구성 요소 선정",nav4:"교육과정 연계",nav5:"수업 활동 구성",nav6:"자료탐색/브랜딩",nav7:"미리보기",proc0:"프로젝트 정보",proc1:"[과정 1] 자유로운 상상",proc2:"[과정 2] 수업 모델 선정",proc3:"[과정 3] 구성 요소 선정",proc4:"[과정 4] 교육과정 연계",proc5:"[과정 5] 수업 활동 구성",proc6:"[과정 6] 자료탐색/브랜딩",preview:"결과 미리보기",title:"수업/프로젝트 이름",teacher:"기획자",grade:"대상/학년",period:"운영 기간/차시",goals:"핵심 목표",notes:"메모",s1_kw:"1. 키워드 떠올리기",s1_assoc:"2. 키워드 연상하기",s1_sentence:"3. 한 문장 정리",model1_name:"감상중심 뮤지컬수업",model1_desc:"작품 감상 중심으로 다양한 활동 전개",model2_name:"창작중심 뮤지컬수업",model2_desc:"뮤지컬 창작 경험을 목표로 함",model3_name:"공연중심 뮤지컬수업",model3_desc:"무대에서의 공연을 목표로 운영",model4_name:"콘텐츠 창작중심 뮤지컬수업",model4_desc:"작품 기반의 다양한 콘텐츠를 제작",model_etc:"기타 모델",s2_dir:"1. 내가 상상한 수업의 방향",s2_reason:"2. 모델 선택 이유",s3_me:"1. 나의 강점",s3_students:"2. 학생 강점",s3_connect:"3. 뮤지컬 구성요소 연결",s4_content:"1. 내용 요소 찾기",s4_std:"2. 성취기준 탐색 및 분석",s4_link:"3. 성취기준 연결",s4_flow:"4. 수업 흐름(요약)",prep_title:"준비하기(마음 열기)",disc_title:"떠올리기(주제·소재 탐색)",expr_title:"표현하기(창작)",share_title2:"나누기(공유)",add_activity:"활동 추가",s6_res:"1. 수업에 필요한 자료",s6_edge:"2. 내 수업의 매력",s6_name:"3. 이름 만들기",s6_visual_text:"4. 이미지화(텍스트)",s6_visual_media:"4-1) 이미지화(업로드/그리기)",draw_tools:"그리기 도구",brush_color:"브러시 색",brush_size:"브러시 굵기",mode_draw:"펜",mode_erase:"지우개",clear_canvas:"캔버스 지우기",canvas_hint:"",choose_export:"내보내기 형식 선택",cancel:"취소",ref_title:"내용 출처",no_file:"선택된 파일 없음",refresh_preview:"미리보기 최신화",copy_text:"미리보기 텍스트 복사"},
+  ENG:{site_name:"Musical Class Studio",share:"Copy Share Link",export:"Export",open_file:"Open File",reset:"Reset",progress:"Progress",nav0:"Project Info",nav1:"Free Imagination",nav2:"Select Model",nav3:"Choose Elements",nav4:"Curriculum Link",nav5:"Activity Design",nav6:"Resources/Branding",nav7:"Preview",proc0:"Project Info",proc1:"[Step 1] Free Imagination",proc2:"[Step 2] Select Model",proc3:"[Step 3] Choose Elements",proc4:"[Step 4] Curriculum Link",proc5:"[Step 5] Activity Design",proc6:"[Step 6] Resources/Branding",preview:"Preview",title:"Class/Project Title",teacher:"Planner",grade:"Target/Grade",period:"Period/Sessions",goals:"Key Goals",notes:"Notes",s1_kw:"1. Keyword Brainstorm",s1_assoc:"2. Keyword Association",s1_sentence:"3. Summarize in One Sentence",model1_name:"Appreciation-centered",model1_desc:"Explore works and expand appreciation activities",model2_name:"Creation-centered",model2_desc:"Aim to experience musical creation",model3_name:"Performance-centered",model3_desc:"Operate with stage performance as the goal",model4_name:"Content-creation-centered",model4_desc:"Produce various contents based on works",model_etc:"Other Model",s2_dir:"1. Direction of Your Class",s2_reason:"2. Why These Models",s3_me:"1. My Strengths",s3_students:"2. Students’ Strengths",s3_connect:"3. Link to Musical Elements",s4_content:"1. Content Elements",s4_std:"2. Standards/Analysis",s4_link:"3. Link to Activities",s4_flow:"4. Lesson Flow (Summary)",prep_title:"Prepare (Open Hearts)",disc_title:"Discover (Topic/Material)",expr_title:"Create (Making)",share_title2:"Share",add_activity:"Add Activity",s6_res:"1. Needed Resources",s6_edge:"2. Differentiators",s6_name:"3. Name",s6_visual_text:"4. Visualization (Text)",s6_visual_media:"4-1) Visual (Upload/Draw)",draw_tools:"Drawing Tools",brush_color:"Brush Color",brush_size:"Brush Size",mode_draw:"Pen",mode_erase:"Eraser",clear_canvas:"Clear Canvas",canvas_hint:"※ Drawing/uploads are automatically included in result/JSON.",choose_export:"Choose Export Format",cancel:"Cancel",ref_title:"References",no_file:"No file selected",refresh_preview:"Refresh Preview",copy_text:"Copy Preview Text"}
+};
+function t(k){return I18N[LANG][k]||k;}
+function applyI18n(){
+  $$("[data-i18n]").forEach(el=>{el.textContent=t(el.getAttribute("data-i18n"));});
+  if(LANG==="KOR"){ $("#title").placeholder="예) 세상에서 가장 쉬운 뮤지컬 수업"; $("#teacher").placeholder="예) 교육뮤지컬 꿈꾸는 치수쌤"; $("#grade").placeholder="예) 초등 5학년"; $("#period").placeholder="예) 4주 / 8차시"; $("#s3_connect").placeholder="이야기/음악/연기/안무/무대미술 등"; $("#fileBtn").textContent="파일 선택"; $("#mEtc").placeholder="나만의 뮤지컬 수업모델";}
+  else{ $("#title").placeholder="e.g., Our Class Musical of Emotions"; $("#teacher").placeholder="e.g., Planner Name"; $("#grade").placeholder="e.g., Grade 5"; $("#period").placeholder="e.g., 4 weeks / 8 sessions"; $("#s3_connect").placeholder="Story/Music/Acting/Movement/Stage design, etc."; $("#fileBtn").textContent="Choose File"; $("#mEtc").placeholder="My Own Musical Class Model";}
+  $("#fileName").textContent=t("no_file"); $("#siteLogo").src=LOGO[LANG]; document.title=t("site_name"); document.documentElement.lang=(LANG==="ENG"?"en":"ko"); $("#canvasHint").style.display=LANG==="ENG"?"block":"none";
+}
+function toast(msg){const n=document.createElement("div");n.textContent=msg;Object.assign(n.style,{position:"fixed",bottom:"24px",left:"50%",transform:"translateX(-50%)",background:"rgba(0,0,0,.7)",color:"#fff",padding:"10px 14px",borderRadius:"10px",boxShadow:"0 10px 20px rgba(0,0,0,.35)",zIndex:2000,fontWeight:"700"});document.body.appendChild(n);setTimeout(()=>n.remove(),1600);}
+function modelsFromDOM(){return{m1:$("#m1").checked,m2:$("#m2").checked,m3:$("#m3").checked,m4:$("#m4").checked,etc:$("#mEtcChk").checked,etcText:$("#mEtc").value||""};}
+function setModels(s){$("#m1").checked=!!s.m1;$("#m2").checked=!!s.m2;$("#m3").checked=!!s.m3;$("#m4").checked=!!s.m4;$("#mEtcChk").checked=!!s.etc;$("#mEtc").value=s.etcText||"";}
+function getState(){const s={};for(const k of STATE_KEYS){if(k==="models"||k==="brandCanvasData")continue;const el=$("#"+k);if(el)s[k]=el.value??"";}s.models=modelsFromDOM();s.brandCanvasData=STATE.brandCanvasData||"";s.acts=STATE.acts;return s;}
+function setState(s){for(const k of STATE_KEYS){if(k==="models"||k==="brandCanvasData")continue;const el=$("#"+k);if(el&&s[k]!==undefined)el.value=s[k];}if(s.models)setModels(s.models);if(s.acts){STATE.acts=s.acts;renderActsAll();}if(s.brandCanvasData&&CAN.ctx){const img=new Image();img.onload=()=>CAN.ctx.drawImage(img,0,0,CAN.canvas.width,CAN.canvas.height);img.src=s.brandCanvasData;STATE.brandCanvasData=s.brandCanvasData;}refreshPreview();localSave();}
+function localSave(){try{localStorage.setItem("mss-state",JSON.stringify(getState()));}catch{}}
+function makeActItem(key,t=""){const idx=STATE.acts[key].length;const w=document.createElement("div");w.className="activity-item";w.dataset.col=key;w.dataset.idx=idx;const row=document.createElement("div");row.className="row";const del=document.createElement("button");del.className="icon-btn";del.textContent=(LANG==="KOR"?"삭제":"Delete");del.addEventListener("click",()=>{const i=Number(w.dataset.idx);STATE.acts[key].splice(i,1);renderActs(key);localSave();});row.append(del);const ta=document.createElement("textarea");ta.value=t;ta.placeholder=(LANG==="KOR"?"활동 내용/유의점/자료 등":"Details/notes/resources");ta.addEventListener("input",()=>{const i=Number(w.dataset.idx);STATE.acts[key][i]=ta.value;localSave();});w.append(row,ta);return w;}
+function renderActs(key){const el=$("#list_"+key);el.innerHTML="";STATE.acts[key].forEach((t,i)=>{const item=makeActItem(key,t);item.dataset.idx=i;el.appendChild(item);});}
+function renderActsAll(){["prepare","discover","create","share"].forEach(renderActs);}
+function refreshPreview(){
+  const s=getState(); $("#pvTitle").textContent=s.title||(LANG==="KOR"?"제목 미정":"Untitled"); $("#pvMeta").textContent=`${t("teacher")}: ${s.teacher||"-"} · ${t("grade")}: ${s.grade||"-"} · ${t("period")}: ${s.period||"-"}`;
+  const box=$("#pvContent"); box.innerHTML="";
+  const add=(title,html)=>{const sec=document.createElement("section");sec.style.cssText="margin:10px 0;padding:10px;border:1px solid var(--border);border-radius:10px;break-inside:avoid;page-break-inside:avoid";sec.innerHTML=`<div style="font-weight:800;margin-bottom:6px">${title}</div>${html}`;box.appendChild(sec);};
+  add(t("goals"),`<div>${(s.goals||"").replace(/\n/g,"<br>")}</div>`); if(s.notes) add(t("notes"),`<div>${(s.notes||"").replace(/\n/g,"<br>")}</div>`);
+  add(t("proc1"),`<div><b>${t("s1_kw")}</b><div>${(s.s1_keywords||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s1_assoc")}</b><div>${(s.s1_assoc||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s1_sentence")}</b><div>${s.s1_one||""}</div></div>`);
+  const m=[]; if(s.models?.m1)m.push(t("model1_name")); if(s.models?.m2)m.push(t("model2_name")); if(s.models?.m3)m.push(t("model3_name")); if(s.models?.m4)m.push(t("model4_name")); if(s.models?.etc&&s.models?.etcText)m.push(s.models.etcText);
+  add(t("proc2"),`<div><b>${t("s2_dir")}</b><div>${(s.s2_dir||"").replace(/\n/g,"<br>")}</div></div><div><b>${LANG==="KOR"?"모델 선택":"Selected Models"}</b><div>${m.join(", ")}</div></div><div><b>${t("s2_reason")}</b><div>${(s.s2_model_reason||"").replace(/\n/g,"<br>")}</div></div>`);
+  add(t("proc3"),`<div><b>${t("s3_me")}</b><div>${(s.s3_me||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s3_students")}</b><div>${(s.s3_students||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s3_connect")}</b><div>${(s.s3_connect||"").replace(/\n/g,"<br>")}</div></div>`);
+  add(t("proc4"),`<div><b>${t("s4_content")}</b><div>${(s.s4_content||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s4_std")}</b><div>${(s.s4_std||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s4_link")}</b><div>${(s.s4_link||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s4_flow")}</b><div>${(s.s4_flow||"").replace(/\n/g,"<br>")}</div></div>`);
+  const a=s.acts||{prepare:[],discover:[],create:[],share:[]};
+  add(t("proc5"),`<div><b>1. ${t("prep_title")}</b><div>${(a.prepare||[]).map(x=>"• "+x).join("<br>")}</div></div><div><b>2. ${t("disc_title")}</b><div>${(a.discover||[]).map(x=>"• "+x).join("<br>")}</div></div><div><b>3. ${t("expr_title")}</b><div>${(a.create||[]).map(x=>"• "+x).join("<br>")}</div></div><div><b>4. ${t("share_title2")}</b><div>${(a.share||[]).map(x=>"• "+x).join("<br>")}</div></div>`);
+  add(t("proc6"),`<div><b>${t("s6_res")}</b><div>${(s.s6_res||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s6_edge")}</b><div>${(s.s6_edge||"").replace(/\n/g,"<br>")}</div></div><div><b>${t("s6_name")}</b><div>${(s.s6_name||"")}</div></div><div><b>${t("s6_visual_text")}</b><div>${(s.s6_visual_text||"").replace(/\n/g,"<br>")}</div></div>${s.brandCanvasData?`<div style="margin-top:8px"><b>Visual(Canvas)</b><div><img style="max-width:100%" src="${s.brandCanvasData}"/></div></div>`:""}`);
+}
+function toTxt(s){const sec=(t,ls)=>`\n${t}\n${"-".repeat(t.length)}\n${ls.join("\n")}\n`;const acts=s.acts||{prepare:[],discover:[],create:[],share:[]};const m=[];if(s.models?.m1)m.push(t("model1_name"));if(s.models?.m2)m.push(t("model2_name"));if(s.models?.m3)m.push(t("model3_name"));if(s.models?.m4)m.push(t("model4_name"));if(s.models?.etc&&s.models?.etcText)m.push(s.models.etcText);let out="";out+=sec(t("proc0"),[`${t("title")}: ${s.title||""}`,`${t("teacher")}: ${s.teacher||""}`,`${t("grade")}: ${s.grade||""}`,`${t("period")}: ${s.period||""}`,`${t("goals")}:\n${s.goals||""}`,`${t("notes")}:\n${s.notes||""}`]);out+=sec(t("proc1"),[`${t("s1_kw")}: ${s.s1_keywords||""}`,`${t("s1_assoc")}: ${s.s1_assoc||""}`,`${t("s1_sentence")}: ${s.s1_one||""}`]);out+=sec(t("proc2"),[`${t("s2_dir")}: ${s.s2_dir||""}`,`${LANG==="KOR"?"모델 선택":"Selected Models"}: ${m.join(", ")}`,`${t("s2_reason")}: ${s.s2_model_reason||""}`]);out+=sec(t("proc3"),[`${t("s3_me")}: ${s.s3_me||""}`,`${t("s3_students")}: ${s.s3_students||""}`,`${t("s3_connect")}: ${s.s3_connect||""}`]);out+=sec(t("proc4"),[`${t("s4_content")}: ${s.s4_content||""}`,`${t("s4_std")}: ${s.s4_std||""}`,`${t("s4_link")}: ${s.s4_link||""}`,`${t("s4_flow")}: ${s.s4_flow||""}`]);out+=sec(t("proc5"),[`1. ${t("prep_title")}\n- ${(acts.prepare||[]).join("\n- ")}`,`2. ${t("disc_title")}\n- ${(acts.discover||[]).join("\n- ")}`,`3. ${t("expr_title")}\n- ${(acts.create||[]).join("\n- ")}`,`4. ${t("share_title2")}\n- ${(acts.share||[]).join("\n- ")}`]);out+=sec(t("proc6"),[`${t("s6_res")}: ${s.s6_res||""}`,`${t("s6_edge")}: ${s.s6_edge||""}`,`${t("s6_name")}: ${s.s6_name||""}`,`${t("s6_visual_text")}: ${s.s6_visual_text||""}`,`Visual(Canvas): ${s.brandCanvasData?"[embedded image]":""}`]);return out.trim();}
+function download(name,blob){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},100);}
+function generatePdf(){
+  const s=getState(), filename=`뮤지컬수업_${(s.title||"설계").replace(/\s+/g,"")}.pdf`;
+  const src=document.getElementById('previewBox'), clone=src.cloneNode(true);
+  const marginMm=10, pageWpx=mmToPx(210-marginMm*2), pageHpx=mmToPx(297-marginMm*2);
+  clone.querySelectorAll('section').forEach(sec=>{sec.style.breakInside='avoid';sec.style.pageBreakInside='avoid';});
+  const overlay=document.createElement('div');
+  Object.assign(overlay.style,{position:'fixed',inset:'0',zIndex:2147483647,display:'flex',justifyContent:'center',alignItems:'flex-start',background:'transparent',opacity:'0.01',pointerEvents:'none'});
+  document.body.appendChild(overlay);
+  Object.assign(clone.style,{width:pageWpx+'px',maxWidth:pageWpx+'px',background:'#fff',color:'#111',boxShadow:'none',border:'0',transformOrigin:'top left'});
+  overlay.appendChild(clone);
+  requestAnimationFrame(()=>{
+    const realH=clone.scrollHeight;let scale=1;
+    if(realH>pageHpx){scale=pageHpx/realH;clone.style.transform=`scale(${scale})`;clone.style.width=(pageWpx/scale)+'px';}
+    const opt={margin:marginMm,filename,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,letterRendering:true,backgroundColor:'#ffffff',scrollX:0,scrollY:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:[]}};
+    html2pdf().set(opt).from(clone).save().then(()=>overlay.remove());
+  });
+}
+const CAN={canvas:null,ctx:null,mode:"draw",drawing:false};
+function canEnsure(){try{if(!CAN.canvas)CAN.canvas=$("#brandCanvas");if(CAN.canvas&&!CAN.ctx)CAN.ctx=CAN.canvas.getContext("2d");return !!(CAN.canvas&&CAN.ctx);}catch{return false}}
+function canBind(){if(!canEnsure())return;const c=CAN.canvas,ctx=CAN.ctx;
+  const pos=e=>{const r=c.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;const y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;return{x:x*c.width/r.width,y:y*c.height/r.height}};
+  const start=e=>{e.preventDefault();if(!canEnsure())return;CAN.drawing=true;ctx.lineJoin="round";ctx.lineCap="round";ctx.globalCompositeOperation=(CAN.mode==="erase")?"destination-out":"source-over";ctx.strokeStyle=$("#brushColor").value;ctx.lineWidth=Number($("#brushSize").value);const {x,y}=pos(e);ctx.beginPath();ctx.moveTo(x,y)};
+  const move=e=>{if(!CAN.drawing)return;const {x,y}=pos(e);ctx.lineTo(x,y);ctx.stroke()};
+  const end=()=>{if(!CAN.drawing)return;CAN.drawing=false;STATE.brandCanvasData=c.toDataURL("image/png");localSave()};
+  c.addEventListener("mousedown",start);c.addEventListener("mousemove",move);c.addEventListener("mouseup",end);c.addEventListener("mouseleave",end);
+  c.addEventListener("touchstart",start,{passive:false});c.addEventListener("touchmove",move,{passive:false});c.addEventListener("touchend",end);
+}
+function syncCanvasLayout(){const canvas=$("#brandCanvas"),tools=$("#toolsBox");if(!canvas||!tools)return;const box=canvas.parentElement,w=box.clientWidth||canvas.clientWidth,h=Math.round(w*9/16);canvas.style.setProperty('--canvas-h',h+'px');tools.style.minHeight=h+'px';}
+document.addEventListener("click",(e)=>{
+  const actEl=e.target.closest("[data-action]");
+  if(actEl){
+    const [type,arg]=(actEl.getAttribute("data-action")||"").split(":");
+    if(type==="home"){const base=location.href.split('#')[0];location.href=base;}
+    if(type==="openRefs"){const modal=$("#refModal"),body=$("#refModalBody");const tmp=$("#refsBox").cloneNode(true);tmp.querySelector('h4')?.remove();body.innerHTML=tmp.innerHTML;modal.style.display="grid";}
+    if(type==="closeRefs"){$("#refModal").style.display="none";}
+    if(type==="share"){const base=location.href.split('#')[0];const dataB64=btoa(unescape(encodeURIComponent(JSON.stringify(getState()))));const safe=encodeURIComponent(dataB64);const url=`${base}#data=${safe}&lang=${LANG}&theme=${THEME}`;history.replaceState(null,"",url);navigator.clipboard.writeText(url).then(()=>toast(LANG==="KOR"?"공유 링크를 클립보드에 복사했습니다.":"Share link copied.")).catch(()=>toast(LANG==="KOR"?"공유 링크 복사에 실패했습니다.":"Copy failed."));}
+    if(type==="exportOpen"){$("#exportModal").style.display="grid";}
+    if(type==="exportCancel"){$("#exportModal").style.display="none";}
+    if(type==="exportOk"){$("#exportModal").style.display="none";const s=getState();const base=(s.title||"설계").replace(/\s+/g,"");const fmt=document.querySelector('input[name="expfmt"]:checked').value;if(fmt==="json"){download(`뮤지컬수업_${base}.json`,new Blob([JSON.stringify(s,null,2)],{type:"application/json"}));}else if(fmt==="txt"){download(`뮤지컬수업_${base}.txt`,new Blob([toTxt(s)],{type:"text/plain;charset=utf-8"}));}else{generatePdf();}}
+    if(type==="openFile"){$("#jsonUpload").click();}
+    if(type==="reset"){if(confirm(LANG==="KOR"?"정말 모든 내용을 초기화할까요? (되돌릴 수 없음)":"Reset all? (This cannot be undone)")){STATE=defaultState();setState(STATE);localSave();toast(LANG==="KOR"?"초기화 완료":"Reset complete");}}
+    if(type==="theme"){THEME=arg;document.documentElement.setAttribute("data-theme",THEME);$("[data-action='theme:dark']").classList.toggle("active",THEME==="dark");$("[data-action='theme:light']").classList.toggle("active",THEME==="light");localStorage.setItem("mss-theme",THEME);}
+    if(type==="lang"){LANG=(arg==="ENG"?"ENG":"KOR");$("[data-action='lang:KOR']").classList.toggle("active",LANG==="KOR");$("[data-action='lang:ENG']").classList.toggle("active",LANG==="ENG");applyI18n();refreshPreview();}
+    if(type==="addAct"){STATE.acts[arg].push("");renderActs(arg);localSave();}
+    if(type==="refreshPreview"){refreshPreview();}
+    if(type==="copyTxt"){navigator.clipboard.writeText(toTxt(getState()));}
+    if(type==="clearCanvas"){if(!canEnsure())return;CAN.ctx.clearRect(0,0,CAN.canvas.width,CAN.canvas.height);STATE.brandCanvasData=CAN.canvas.toDataURL("image/png");localSave();}
+    if(type==="drawMode"){CAN.mode=arg;}
+    if(type==="clickUpload"){$("#imgUpload").click();}
+    e.preventDefault();
+  }
+  const nav=e.target.closest(".js-nav");
+  if(nav){document.getElementById(nav.dataset.target)?.scrollIntoView({behavior:"smooth",block:"start"});e.preventDefault();}
+});
+document.addEventListener("input",(e)=>{const id=(e.target||{}).id||"";if(id==="brushSize"){$("#brushSizeVal").textContent=e.target.value;return;}if(id==="imgUpload")return;localSave();});
+$("#imgUpload").addEventListener("change",(e)=>{const f=e.target.files[0];if(!f||!canEnsure())return;$("#fileName").textContent=f.name||t("no_file");const img=new Image();img.onload=()=>{CAN.ctx.drawImage(img,0,0,CAN.canvas.width,CAN.canvas.height);STATE.brandCanvasData=CAN.canvas.toDataURL("image/png");localSave();};const r=new FileReader();r.onload=()=>img.src=r.result;r.readAsDataURL(f);});
+document.addEventListener("DOMContentLoaded",()=>{try{THEME=localStorage.getItem("mss-theme")||"light";document.documentElement.setAttribute("data-theme",THEME);$("[data-action='theme:dark']").classList.toggle("active",THEME==="dark");$("[data-action='theme:light']").classList.toggle("active",THEME==="light");const params=new URLSearchParams(location.hash.replace(/^#/,""));const data=params.get("data");const lang=params.get("lang");const theme=params.get("theme");if(theme){THEME=theme;document.documentElement.setAttribute("data-theme",THEME);}if(lang){LANG=(lang==="ENG"?"ENG":"KOR");$("[data-action='lang:KOR']").classList.toggle("active",LANG==="KOR");$("[data-action='lang:ENG']").classList.toggle("active",LANG==="ENG");}if(data){const decoded=atob(decodeURIComponent(data));setState(JSON.parse(decodeURIComponent(escape(decoded))));}else{const raw=localStorage.getItem("mss-state");if(raw)setState(JSON.parse(raw));}applyI18n();renderActsAll();refreshPreview();canBind();syncCanvasLayout();}catch(err){console.error(err);toast("초기화 중 오류가 있었어요.");}});
+window.addEventListener('resize',syncCanvasLayout);
+</script>
+</body>
+</html><script>function showAlert(){
+  const box = document.createElement('div');
+  box.textContent = '버튼이 클릭되었습니다! ' + new Date().toLocaleTimeString();
+  box.style.cssText = 'margin-top:20px;padding:12px;border:1px solid #93c5fd;background:#dbeafe;border-radius:10px;color:#1e40af';
+  document.body.appendChild(box);
+}
+console.log('콘솔 테스트: 정상 동작');</script></body></html>
