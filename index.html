@@ -177,7 +177,12 @@ button:hover{ filter:brightness(.95) }</style></head>
       <li class="step js-nav" data-target="preview"><span class="num">✓</span><span data-i18n="nav7">미리보기</span></li>
     </ul>
 
-    <!-- (참고) 원본 코드 기준으로 refsBox 미포함 상태 유지 -->
+    <!-- 복원된 내용 출처 박스 -->
+    <div class="aside-box" id="refsBox">
+      <h4 data-i18n="ref_title">내용 출처</h4>
+      <p>📚 <a href="https://search.shopping.naver.com/book/search?bookTabType=ALL&pageIndex=1&pageSize=40&query=%EC%84%B8%EC%83%81%EC%97%90%EC%84%9C%20%EA%B0%80%EC%9E%A5%20%EC%89%AC%EC%9A%B4%20%EB%AE%A4%EC%A7%80%EC%BB%AC%20%EC%88%98%EC%97%85&sort=REL" target="_blank" rel="noopener">세상에서 가장 쉬운 뮤지컬 수업</a><br /><span class="muted">(푸른칠판, 원치수)</span></p>
+      <p>📚 <a href="https://q-shop.kr/shop_view/?idx=180" target="_blank" rel="noopener">뮤지컬 창작 노트</a><br /><span class="muted">(사자가온다, 원치수)</span></p>
+    </div>
   </aside>
 
   <main>
@@ -235,7 +240,6 @@ button:hover{ filter:brightness(.95) }</style></head>
     <section class="card section" id="s4">
       <div class="head">
         <h2 data-i18n="proc4">[과정 4] 교육과정 연계</h2>
-        <!-- 추가된 버튼: 오른쪽 끝 정렬 -->
         <button class="btn" data-action="openStd" style="margin-left:auto">성취기준 사이트</button>
       </div>
       <div class="body grid-2">
@@ -429,10 +433,7 @@ document.addEventListener("click",(e)=>{
     if(type==="clearCanvas"){if(!canEnsure())return;CAN.ctx.clearRect(0,0,CAN.canvas.width,CAN.canvas.height);STATE.brandCanvasData=CAN.canvas.toDataURL("image/png");localSave();}
     if(type==="drawMode"){CAN.mode=arg;}
     if(type==="clickUpload"){$("#imgUpload").click();}
-    /* 성취기준 사이트 버튼: 새 탭 열기 */
-    if(type==="openStd"){
-      window.open("https://joo.is/ssdguide","_blank","noopener");
-    }
+    if(type==="openStd"){window.open("https://joo.is/ssdguide","_blank","noopener");}
     e.preventDefault();
   }
   const nav=e.target.closest(".js-nav");
