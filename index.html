@@ -397,6 +397,30 @@ canvas{display:block;width:100%;height:var(--canvas-h,0px);background:#fff;touch
 .radio-row:hover{border-color:var(--brand);background:var(--accent)}
 .radio-row input[type="radio"]{accent-color:var(--brand)}
 
+/* ===== HEADER DROPDOWN ===== */
+.hdr-drop{position:relative}
+.drop-menu{
+  position:absolute;right:0;top:calc(100% + 8px);
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-sm);box-shadow:var(--shadow);
+  min-width:148px;z-index:1200;
+  display:none;flex-direction:column;overflow:hidden;
+  animation:dropIn .14s ease;
+}
+@keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.drop-menu.open{display:flex}
+.drop-item{
+  padding:10px 14px;display:flex;align-items:center;gap:8px;
+  font-size:.875rem;font-weight:600;
+  border:0;background:transparent;cursor:pointer;
+  color:var(--text);transition:background var(--ease),color var(--ease);
+  text-align:left;font-family:inherit;white-space:nowrap;width:100%;
+}
+.drop-item:hover{background:var(--accent);color:var(--brand)}
+.drop-item .mi{font-size:16px;flex-shrink:0}
+.drop-item.active-lang{color:var(--brand);background:var(--step-bg)}
+.drop-divider{height:1px;background:var(--border);margin:2px 0}
+
 /* ===== FOOTER ===== */
 footer.page-footer{
   margin:40px 0 28px;text-align:center;
@@ -469,30 +493,54 @@ footer.page-footer a:hover{text-decoration:underline}
       <span class="sr-only">뮤지컬 수업 스튜디오</span>
     </div>
     <div class="head-actions">
-      <button class="btn" data-action="exportOpen" aria-label="Export">
-        <span class="mi" aria-hidden="true">file_download</span>
-        <span class="label" data-i18n="export">내보내기</span>
-      </button>
       <input id="jsonUpload" type="file" accept=".json" style="display:none" />
-      <button class="btn" data-action="openFile" aria-label="Open File">
-        <span class="mi" aria-hidden="true">folder_open</span>
-        <span class="label" data-i18n="open_file">파일 열기</span>
-      </button>
-      <button class="btn" data-action="share" aria-label="Copy Share Link">
+
+      <!-- 파일: 백업저장 + 열기 통합 드롭다운 -->
+      <div class="hdr-drop" id="fileDrop">
+        <button class="btn" data-action="toggleDrop:fileDrop" aria-label="파일" title="파일 백업/열기">
+          <span class="mi" aria-hidden="true">folder_managed</span>
+        </button>
+        <div class="drop-menu" id="fileDropMenu" role="menu">
+          <button class="drop-item" data-action="exportOpen" role="menuitem">
+            <span class="mi">file_download</span>백업 저장
+          </button>
+          <div class="drop-divider"></div>
+          <button class="drop-item" data-action="openFile" role="menuitem">
+            <span class="mi">folder_open</span>파일 열기
+          </button>
+        </div>
+      </div>
+
+      <!-- 공유 -->
+      <button class="btn" data-action="share" aria-label="공유 링크 복사" title="공유 링크 복사">
         <span class="mi" aria-hidden="true">share</span>
-        <span class="label" data-i18n="share">공유 링크 복사</span>
       </button>
-      <button class="btn" data-action="reset" aria-label="Reset">
+
+      <!-- 초기화 -->
+      <button class="btn" data-action="reset" aria-label="초기화" title="초기화">
         <span class="mi" aria-hidden="true">restart_alt</span>
-        <span class="label" data-i18n="reset">초기화</span>
       </button>
+
+      <!-- 테마 -->
       <div class="seg" title="Theme">
         <button data-action="theme:dark"><span class="mi" aria-hidden="true">dark_mode</span><span class="sr-only">Dark mode</span></button>
         <button data-action="theme:light" class="active"><span class="mi" aria-hidden="true">light_mode</span><span class="sr-only">Light mode</span></button>
       </div>
-      <div class="seg" title="Language">
-        <button data-action="lang:KOR" class="active"><span class="mi" aria-hidden="true">translate</span><span>KOR</span></button>
-        <button data-action="lang:ENG"><span class="mi" aria-hidden="true">language</span><span>ENG</span></button>
+
+      <!-- 언어 드롭다운 -->
+      <div class="hdr-drop" id="langDrop">
+        <button class="btn" data-action="toggleDrop:langDrop" aria-label="언어 선택" title="언어 선택">
+          <span class="mi" aria-hidden="true">translate</span>
+          <span id="langLabel" style="font-size:.8rem;font-weight:700;letter-spacing:.02em">KOR</span>
+        </button>
+        <div class="drop-menu" id="langDropMenu" role="menu">
+          <button class="drop-item active-lang" data-action="lang:KOR" role="menuitem" id="langItemKOR">
+            <span class="mi">translate</span>한국어 (KOR)
+          </button>
+          <button class="drop-item" data-action="lang:ENG" role="menuitem" id="langItemENG">
+            <span class="mi">language</span>English (ENG)
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -763,10 +811,13 @@ function canBind(){if(!canEnsure())return;const c=CAN.canvas,ctx=CAN.ctx;
   c.addEventListener("touchstart",start,{passive:false});c.addEventListener("touchmove",move,{passive:false});c.addEventListener("touchend",end);
 }
 function syncCanvasLayout(){const canvas=$("#brandCanvas"),tools=$("#toolsBox");if(!canvas||!tools)return;const box=canvas.parentElement,w=box.clientWidth||canvas.clientWidth,h=Math.round(w*9/16);canvas.style.setProperty('--canvas-h',h+'px');tools.style.minHeight=h+'px';}
+function closeAllDrops(){$$(".drop-menu").forEach(m=>m.classList.remove("open"));}
 document.addEventListener("click",(e)=>{
+  if(!e.target.closest(".hdr-drop"))closeAllDrops();
   const actEl=e.target.closest("[data-action]");
   if(actEl){
     const [type,arg]=(actEl.getAttribute("data-action")||"").split(":");
+    if(type==="toggleDrop"){const menu=document.getElementById(arg+"Menu");const wasOpen=menu.classList.contains("open");closeAllDrops();if(!wasOpen)menu.classList.add("open");return;}
     if(type==="home"){const base=location.href.split('#')[0];location.href=base;}
     if(type==="openRefs"){const modal=$("#refModal"),body=$("#refModalBody");const tmp=$("#refsBox")?.cloneNode(true);if(tmp){tmp.querySelector('h4')?.remove();body.innerHTML=tmp.innerHTML;}modal.style.display="grid";}
     if(type==="closeRefs"){$("#refModal").style.display="none";}
@@ -777,7 +828,7 @@ document.addEventListener("click",(e)=>{
     if(type==="openFile"){$("#jsonUpload").click();}
     if(type==="reset"){if(confirm(LANG==="KOR"?"정말 모든 내용을 초기화할까요? (되돌릴 수 없음)":"Reset all? (This cannot be undone)")){STATE=defaultState();setState(STATE);localSave();toast(LANG==="KOR"?"초기화 완료":"Reset complete");}}
     if(type==="theme"){THEME=arg;document.documentElement.setAttribute("data-theme",THEME);$("[data-action='theme:dark']").classList.toggle("active",THEME==="dark");$("[data-action='theme:light']").classList.toggle("active",THEME==="light");localStorage.setItem("mss-theme",THEME);}
-    if(type==="lang"){LANG=(arg==="ENG"?"ENG":"KOR");$("[data-action='lang:KOR']").classList.toggle("active",LANG==="KOR");$("[data-action='lang:ENG']").classList.toggle("active",LANG==="ENG");applyI18n();refreshPreview();}
+    if(type==="lang"){LANG=(arg==="ENG"?"ENG":"KOR");const ll=$("#langLabel");if(ll)ll.textContent=LANG;const ki=$("#langItemKOR"),ei=$("#langItemENG");if(ki)ki.classList.toggle("active-lang",LANG==="KOR");if(ei)ei.classList.toggle("active-lang",LANG==="ENG");closeAllDrops();applyI18n();refreshPreview();}
     if(type==="addAct"){STATE.acts[arg].push("");renderActs(arg);localSave();}
     if(type==="refreshPreview"){refreshPreview();}
     if(type==="copyTxt"){navigator.clipboard.writeText(toTxt(getState()));}
