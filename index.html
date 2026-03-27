@@ -497,7 +497,7 @@ footer.page-footer a:hover{text-decoration:underline}
 }
 
 /* ===== HAMBURGER / NAV DRAWER (≤860px) ===== */
-.hdr-hamburger{display:none;padding:8px 10px}
+.hdr-hamburger{display:none;padding:8px 10px;border-radius:50%}
 .nav-drawer{
   position:fixed;top:var(--header-h);left:0;right:0;z-index:1050;
   background:var(--panel);
@@ -511,21 +511,8 @@ footer.page-footer a:hover{text-decoration:underline}
   pointer-events:none;
 }
 .nav-drawer.open{transform:translateY(0);opacity:1;pointer-events:auto}
-.drawer-nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}
-.drawer-nav-btn{
-  display:flex;align-items:center;gap:7px;
-  padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);
-  background:var(--card);color:var(--muted);font-weight:600;font-size:.82rem;
-  cursor:pointer;transition:all var(--ease);font-family:inherit;text-align:left;
-}
-.drawer-nav-btn:hover{background:var(--accent);border-color:var(--brand);color:var(--brand)}
-.drawer-nav-btn .num{
-  display:inline-grid;place-items:center;width:20px;height:20px;
-  border-radius:5px;background:var(--step-bg);color:var(--brand);
-  font-size:.7rem;font-weight:700;flex-shrink:0;
-}
-.drawer-nav-btn .mi{font-size:16px;flex-shrink:0}
-.drawer-actions{display:flex;flex-wrap:wrap;gap:7px;padding-top:12px;border-top:1px solid var(--border)}
+.drawer-section-label{font-size:.75rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.drawer-actions{display:flex;flex-wrap:wrap;gap:7px}
 .drawer-action-btn{
   display:flex;align-items:center;gap:6px;
   padding:8px 13px;border:1px solid var(--border);border-radius:99px;
@@ -534,7 +521,46 @@ footer.page-footer a:hover{text-decoration:underline}
 }
 .drawer-action-btn:hover{background:var(--accent);border-color:var(--brand);color:var(--brand)}
 .drawer-action-btn .mi{font-size:17px}
-.drawer-action-btn.active-lang{color:var(--brand);border-color:var(--brand);background:var(--accent)}
+.drawer-action-btn.active-lang,.drawer-action-btn.active-theme{color:var(--brand);border-color:var(--brand);background:var(--accent)}
+.drawer-divider{height:1px;background:var(--border);margin:12px 0}
+
+/* ===== FAB NAVIGATION (≤860px) ===== */
+.fab-nav{display:none;position:fixed;right:18px;bottom:24px;z-index:1080}
+.fab-btn{
+  width:50px;height:50px;border-radius:50%;
+  background:var(--btn-primary);color:#fff;border:none;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(99,102,241,.45);
+  transition:transform var(--ease),box-shadow var(--ease);
+  font-family:inherit;
+}
+.fab-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(99,102,241,.55)}
+.fab-btn .mi{font-size:22px}
+.fab-menu{
+  position:absolute;bottom:calc(100% + 10px);right:0;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:8px;width:200px;
+  display:none;flex-direction:column;gap:2px;
+  transform-origin:bottom right;
+}
+.fab-menu.open{display:flex;animation:fabIn .16s cubic-bezier(.34,1.56,.64,1)}
+@keyframes fabIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+.fab-step{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 12px;border-radius:var(--radius-sm);
+  border:none;background:transparent;cursor:pointer;
+  color:var(--muted);font-weight:600;font-size:.84rem;
+  text-align:left;font-family:inherit;
+  transition:background var(--ease),color var(--ease);width:100%;
+}
+.fab-step:hover{background:var(--accent);color:var(--brand)}
+.fab-step .num{
+  display:inline-grid;place-items:center;width:22px;height:22px;
+  border-radius:6px;background:var(--step-bg);color:var(--brand);
+  font-size:.72rem;font-weight:800;flex-shrink:0;
+}
+.fab-step .mi{font-size:16px;flex-shrink:0}
 
 /* ===== RESPONSIVE ===== */
 
@@ -554,12 +580,14 @@ footer.page-footer a:hover{text-decoration:underline}
 /* ── 좁은 화면 (PC 소창 · 모바일): ≤860px — 햄버거 토글 ── */
 @media (max-width:860px){
   :root{--header-h:52px}
-  body{font-size:15px;padding-top:var(--header-h);padding-bottom:24px}
+  body{font-size:15px;padding-top:var(--header-h);padding-bottom:80px}
   .subnav{display:none!important}
   .mobile-nav{display:none!important}
   /* 헤더 액션 숨기고 햄버거만 표시 */
   .head-actions{display:none}
   .hdr-hamburger{display:flex}
+  /* FAB 내비게이션 표시 */
+  .fab-nav{display:block}
   .wrap{padding:0 12px;gap:8px}
   .logo-img{height:30px}
   .layout{margin:12px auto;gap:14px;padding:0 12px 32px}
@@ -579,7 +607,6 @@ footer.page-footer a:hover{text-decoration:underline}
   .card .body{padding:12px 14px}
   .seg button{padding:5px 8px;font-size:.76rem}
   .wrap{padding:0 10px}
-  .drawer-nav-grid{grid-template-columns:1fr}
 }
 
 </style>
@@ -631,12 +658,11 @@ footer.page-footer a:hover{text-decoration:underline}
           </button>
         </div>
       </div>
-    </div>
 
-    <!-- 테마 토글: 항상 표시 -->
-    <div class="seg" title="Theme">
-      <button data-action="theme:dark"><span class="mi" aria-hidden="true">dark_mode</span><span class="sr-only">Dark mode</span></button>
-      <button data-action="theme:light" class="active"><span class="mi" aria-hidden="true">light_mode</span><span class="sr-only">Light mode</span></button>
+      <div class="seg" title="Theme" id="headThemeSeg">
+        <button data-action="theme:dark"><span class="mi" aria-hidden="true">dark_mode</span><span class="sr-only">Dark mode</span></button>
+        <button data-action="theme:light" class="active"><span class="mi" aria-hidden="true">light_mode</span><span class="sr-only">Light mode</span></button>
+      </div>
     </div>
 
     <!-- 햄버거: ≤860px 전용 -->
@@ -646,25 +672,26 @@ footer.page-footer a:hover{text-decoration:underline}
   </div>
 </header>
 
-<!-- 햄버거 드로어: ≤860px 전용 — 단계이동 + 액션 통합 -->
+<!-- 햄버거 드로어: ≤860px 전용 — 테마 + 언어 + 액션 -->
 <div class="nav-drawer no-print" id="navDrawer" aria-hidden="true">
-  <div class="drawer-nav-grid">
-    <button class="drawer-nav-btn js-nav" data-target="meta"><span class="num">0</span><span class="mi" aria-hidden="true">assignment</span><span data-i18n="nav0">프로젝트 정보</span></button>
-    <button class="drawer-nav-btn js-nav" data-target="s1"><span class="num">1</span><span class="mi" aria-hidden="true">auto_awesome</span><span data-i18n="nav1">자유로운 상상</span></button>
-    <button class="drawer-nav-btn js-nav" data-target="s2"><span class="num">2</span><span class="mi" aria-hidden="true">fact_check</span><span data-i18n="nav2">수업 모델 선정</span></button>
-    <button class="drawer-nav-btn js-nav" data-target="s3"><span class="num">3</span><span class="mi" aria-hidden="true">hub</span><span data-i18n="nav3">구성 요소 선정</span></button>
-    <button class="drawer-nav-btn js-nav" data-target="s4"><span class="num">4</span><span class="mi" aria-hidden="true">school</span><span data-i18n="nav4">교육과정 연계</span></button>
-    <button class="drawer-nav-btn js-nav" data-target="s5"><span class="num">5</span><span class="mi" aria-hidden="true">view_kanban</span><span data-i18n="nav5">수업 활동 구성</span></button>
-    <button class="drawer-nav-btn js-nav" data-target="s6"><span class="num">6</span><span class="mi" aria-hidden="true">palette</span><span data-i18n="nav6">자료탐색/브랜딩</span></button>
-    <button class="drawer-nav-btn js-nav" data-target="preview"><span class="num">✓</span><span class="mi" aria-hidden="true">preview</span><span data-i18n="nav7">미리보기</span></button>
+  <div class="drawer-section-label">화면 테마</div>
+  <div class="drawer-actions">
+    <button class="drawer-action-btn active-theme" data-action="theme:light" id="drawerThemeLight"><span class="mi">light_mode</span>라이트</button>
+    <button class="drawer-action-btn" data-action="theme:dark" id="drawerThemeDark"><span class="mi">dark_mode</span>다크</button>
   </div>
+  <div class="drawer-divider"></div>
+  <div class="drawer-section-label">언어</div>
+  <div class="drawer-actions">
+    <button class="drawer-action-btn active-lang" data-action="lang:KOR" id="drawerLangKOR"><span class="mi">translate</span>한국어</button>
+    <button class="drawer-action-btn" data-action="lang:ENG" id="drawerLangENG"><span class="mi">language</span>English</button>
+  </div>
+  <div class="drawer-divider"></div>
+  <div class="drawer-section-label">기능</div>
   <div class="drawer-actions">
     <button class="drawer-action-btn" data-action="exportOpen"><span class="mi">file_download</span>백업 저장</button>
     <button class="drawer-action-btn" data-action="openFile"><span class="mi">folder_open</span>파일 열기</button>
     <button class="drawer-action-btn" data-action="share"><span class="mi">share</span>공유 링크</button>
     <button class="drawer-action-btn" data-action="reset"><span class="mi">restart_alt</span>초기화</button>
-    <button class="drawer-action-btn active-lang" data-action="lang:KOR" id="drawerLangKOR"><span class="mi">translate</span>한국어</button>
-    <button class="drawer-action-btn" data-action="lang:ENG" id="drawerLangENG"><span class="mi">language</span>English</button>
   </div>
 </div>
 
@@ -694,6 +721,23 @@ footer.page-footer a:hover{text-decoration:underline}
   <div class="right">
     <button class="btn" style="padding:8px 10px" data-action="openRefs" aria-label="References"><span class="mi" aria-hidden="true">menu_book</span></button>
   </div>
+</div>
+
+<!-- FAB 내비게이션: ≤860px 전용 — 우측 하단 플로팅 단계 이동 -->
+<div class="fab-nav no-print" id="fabNav">
+  <div class="fab-menu" id="fabMenu" role="menu">
+    <button class="fab-step js-nav" data-target="meta"><span class="num">0</span><span class="mi" aria-hidden="true">assignment</span><span data-i18n="nav0">프로젝트 정보</span></button>
+    <button class="fab-step js-nav" data-target="s1"><span class="num">1</span><span class="mi" aria-hidden="true">auto_awesome</span><span data-i18n="nav1">자유로운 상상</span></button>
+    <button class="fab-step js-nav" data-target="s2"><span class="num">2</span><span class="mi" aria-hidden="true">fact_check</span><span data-i18n="nav2">수업 모델 선정</span></button>
+    <button class="fab-step js-nav" data-target="s3"><span class="num">3</span><span class="mi" aria-hidden="true">hub</span><span data-i18n="nav3">구성 요소 선정</span></button>
+    <button class="fab-step js-nav" data-target="s4"><span class="num">4</span><span class="mi" aria-hidden="true">school</span><span data-i18n="nav4">교육과정 연계</span></button>
+    <button class="fab-step js-nav" data-target="s5"><span class="num">5</span><span class="mi" aria-hidden="true">view_kanban</span><span data-i18n="nav5">수업 활동 구성</span></button>
+    <button class="fab-step js-nav" data-target="s6"><span class="num">6</span><span class="mi" aria-hidden="true">palette</span><span data-i18n="nav6">자료탐색/브랜딩</span></button>
+    <button class="fab-step js-nav" data-target="preview"><span class="num">✓</span><span class="mi" aria-hidden="true">preview</span><span data-i18n="nav7">미리보기</span></button>
+  </div>
+  <button class="fab-btn" id="fabBtn" data-action="toggleFab" aria-label="단계 이동" aria-expanded="false">
+    <span class="mi" aria-hidden="true">map</span>
+  </button>
 </div>
 
 <div class="layout">
@@ -975,14 +1019,18 @@ function canBind(){if(!canEnsure())return;const c=CAN.canvas,ctx=CAN.ctx;
 function syncCanvasLayout(){const canvas=$("#brandCanvas");if(!canvas)return;const box=canvas.parentElement,w=box.clientWidth||canvas.clientWidth,h=Math.round(w*9/16);canvas.style.setProperty('--canvas-h',h+'px');}
 function closeAllDrops(){$$(".drop-menu").forEach(m=>m.classList.remove("open"));}
 function closeNavDrawer(){const d=$("#navDrawer");if(d){d.classList.remove("open");d.setAttribute("aria-hidden","true");}const b=$("#hamburgerBtn");if(b)b.querySelector(".mi").textContent="menu";}
+function closeFabMenu(){const m=$("#fabMenu");if(m)m.classList.remove("open");const b=$("#fabBtn");if(b){b.setAttribute("aria-expanded","false");b.querySelector(".mi").textContent="map";}}
+function toggleFab(){const m=$("#fabMenu");if(!m)return;const isOpen=m.classList.toggle("open");const b=$("#fabBtn");if(b){b.setAttribute("aria-expanded",String(isOpen));b.querySelector(".mi").textContent=isOpen?"close":"map";}}
 document.addEventListener("click",(e)=>{
   if(!e.target.closest(".hdr-drop"))closeAllDrops();
   if(!e.target.closest("#navDrawer")&&!e.target.closest("#hamburgerBtn"))closeNavDrawer();
+  if(!e.target.closest("#fabNav"))closeFabMenu();
   const actEl=e.target.closest("[data-action]");
   if(actEl){
     const [type,arg]=(actEl.getAttribute("data-action")||"").split(":");
     if(type==="toggleDrop"){const menu=document.getElementById(arg+"Menu");const wasOpen=menu.classList.contains("open");closeAllDrops();if(!wasOpen)menu.classList.add("open");return;}
-    if(type==="toggleNav"){const d=$("#navDrawer"),isOpen=d.classList.toggle("open");d.setAttribute("aria-hidden",String(!isOpen));const b=$("#hamburgerBtn");if(b)b.querySelector(".mi").textContent=isOpen?"close":"menu";return;}
+    if(type==="toggleNav"){const d=$("#navDrawer"),isOpen=d.classList.toggle("open");d.setAttribute("aria-hidden",String(!isOpen));const b=$("#hamburgerBtn");if(b)b.querySelector(".mi").textContent=isOpen?"close":"menu";closeFabMenu();return;}
+    if(type==="toggleFab"){toggleFab();closeNavDrawer();return;}
     if(type==="home"){const base=location.href.split('#')[0];location.href=base;}
     if(type==="openRefs"){const modal=$("#refModal"),body=$("#refModalBody");const tmp=$("#refsBox")?.cloneNode(true);if(tmp){tmp.querySelector('h4')?.remove();body.innerHTML=tmp.innerHTML;}modal.style.display="grid";}
     if(type==="closeRefs"){$("#refModal").style.display="none";}
@@ -992,7 +1040,7 @@ document.addEventListener("click",(e)=>{
     if(type==="exportOk"){$("#exportModal").style.display="none";const s=getState();const base=(s.title||"설계").replace(/\s+/g,"");const fmt=document.querySelector('input[name="expfmt"]:checked').value;if(fmt==="json"){download(`뮤지컬수업_${base}.json`,new Blob([JSON.stringify(s,null,2)],{type:"application/json"}));}else if(fmt==="txt"){download(`뮤지컬수업_${base}.txt`,new Blob([toTxt(s)],{type:"text/plain;charset=utf-8"}));}else{generatePdf();}}
     if(type==="openFile"){$("#jsonUpload").click();}
     if(type==="reset"){if(confirm(LANG==="KOR"?"정말 모든 내용을 초기화할까요? (되돌릴 수 없음)":"Reset all? (This cannot be undone)")){STATE=defaultState();setState(STATE);localSave();toast(LANG==="KOR"?"초기화 완료":"Reset complete");}}
-    if(type==="theme"){THEME=arg;document.documentElement.setAttribute("data-theme",THEME);$("[data-action='theme:dark']").classList.toggle("active",THEME==="dark");$("[data-action='theme:light']").classList.toggle("active",THEME==="light");localStorage.setItem("mss-theme",THEME);}
+    if(type==="theme"){THEME=arg;document.documentElement.setAttribute("data-theme",THEME);$$("[data-action='theme:dark']").forEach(el=>el.classList.toggle("active",THEME==="dark"));$$("[data-action='theme:light']").forEach(el=>el.classList.toggle("active",THEME==="light"));const dtl=$("#drawerThemeLight"),dtd=$("#drawerThemeDark");if(dtl)dtl.classList.toggle("active-theme",THEME==="light");if(dtd)dtd.classList.toggle("active-theme",THEME==="dark");localStorage.setItem("mss-theme",THEME);closeNavDrawer();}
     if(type==="lang"){LANG=(arg==="ENG"?"ENG":"KOR");const ll=$("#langLabel");if(ll)ll.textContent=LANG;const ki=$("#langItemKOR"),ei=$("#langItemENG");if(ki)ki.classList.toggle("active-lang",LANG==="KOR");if(ei)ei.classList.toggle("active-lang",LANG==="ENG");const dk=$("#drawerLangKOR"),de=$("#drawerLangENG");if(dk)dk.classList.toggle("active-lang",LANG==="KOR");if(de)de.classList.toggle("active-lang",LANG==="ENG");closeAllDrops();closeNavDrawer();applyI18n();refreshPreview();}
     if(type==="addAct"){STATE.acts[arg].push("");renderActs(arg);localSave();}
     if(type==="refreshPreview"){refreshPreview();}
@@ -1004,11 +1052,11 @@ document.addEventListener("click",(e)=>{
     e.preventDefault();
   }
   const nav=e.target.closest(".js-nav");
-  if(nav){document.getElementById(nav.dataset.target)?.scrollIntoView({behavior:"smooth",block:"start"});closeNavDrawer();e.preventDefault();}
+  if(nav){document.getElementById(nav.dataset.target)?.scrollIntoView({behavior:"smooth",block:"start"});closeNavDrawer();closeFabMenu();e.preventDefault();}
 });
 document.addEventListener("input",(e)=>{const id=(e.target||{}).id||"";if(id==="brushSize"){$("#brushSizeVal").textContent=e.target.value;return;}if(id==="imgUpload")return;localSave();});
 $("#imgUpload").addEventListener("change",(e)=>{const f=e.target.files[0];if(!f||!canEnsure())return;$("#fileName").textContent=f.name||t("no_file");const img=new Image();img.onload=()=>{CAN.ctx.drawImage(img,0,0,CAN.canvas.width,CAN.canvas.height);STATE.brandCanvasData=CAN.canvas.toDataURL("image/png");localSave();};const r=new FileReader();r.onload=()=>img.src=r.result;r.readAsDataURL(f);});
-document.addEventListener("DOMContentLoaded",()=>{try{THEME=localStorage.getItem("mss-theme")||"light";document.documentElement.setAttribute("data-theme",THEME);$("[data-action='theme:dark']").classList.toggle("active",THEME==="dark");$("[data-action='theme:light']").classList.toggle("active",THEME==="light");const params=new URLSearchParams(location.hash.replace(/^#/,""));const data=params.get("data");const lang=params.get("lang");const theme=params.get("theme");if(theme){THEME=theme;document.documentElement.setAttribute("data-theme",THEME);}if(lang){LANG=(lang==="ENG"?"ENG":"KOR");$("[data-action='lang:KOR']").classList.toggle("active",LANG==="KOR");$("[data-action='lang:ENG']").classList.toggle("active",LANG==="ENG");}if(data){const decoded=atob(decodeURIComponent(data));setState(JSON.parse(decodeURIComponent(escape(decoded))));}else{const raw=localStorage.getItem("mss-state");if(raw)setState(JSON.parse(raw));}applyI18n();renderActsAll();refreshPreview();canBind();syncCanvasLayout();}catch(err){console.error(err);toast("초기화 중 오류가 있었어요.");}});
+document.addEventListener("DOMContentLoaded",()=>{try{THEME=localStorage.getItem("mss-theme")||"light";document.documentElement.setAttribute("data-theme",THEME);$$("[data-action='theme:dark']").forEach(el=>el.classList.toggle("active",THEME==="dark"));$$("[data-action='theme:light']").forEach(el=>el.classList.toggle("active",THEME==="light"));const dtl=$("#drawerThemeLight"),dtd=$("#drawerThemeDark");if(dtl)dtl.classList.toggle("active-theme",THEME==="light");if(dtd)dtd.classList.toggle("active-theme",THEME==="dark");const params=new URLSearchParams(location.hash.replace(/^#/,""));const data=params.get("data");const lang=params.get("lang");const theme=params.get("theme");if(theme){THEME=theme;document.documentElement.setAttribute("data-theme",THEME);}if(lang){LANG=(lang==="ENG"?"ENG":"KOR");$("[data-action='lang:KOR']").classList.toggle("active",LANG==="KOR");$("[data-action='lang:ENG']").classList.toggle("active",LANG==="ENG");}if(data){const decoded=atob(decodeURIComponent(data));setState(JSON.parse(decodeURIComponent(escape(decoded))));}else{const raw=localStorage.getItem("mss-state");if(raw)setState(JSON.parse(raw));}applyI18n();renderActsAll();refreshPreview();canBind();syncCanvasLayout();}catch(err){console.error(err);toast("초기화 중 오류가 있었어요.");}});
 window.addEventListener('resize',syncCanvasLayout);
 </script>
 </body>
