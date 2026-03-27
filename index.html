@@ -523,6 +523,16 @@ footer.page-footer a:hover{text-decoration:underline}
 .drawer-action-btn .mi{font-size:17px}
 .drawer-action-btn.active-lang,.drawer-action-btn.active-theme{color:var(--brand);border-color:var(--brand);background:var(--accent)}
 .drawer-divider{height:1px;background:var(--border);margin:12px 0}
+/* 아이콘 전용 드로어 버튼 (기능 섹션) */
+.drawer-icon-btn{
+  width:38px;height:38px;padding:0;justify-content:center;
+  border:1px solid var(--border);border-radius:50%;
+  background:var(--btn-grad);color:var(--text);
+  cursor:pointer;font-family:inherit;transition:all var(--ease);box-shadow:var(--shadow-soft);
+  display:inline-flex;align-items:center;flex-shrink:0;position:relative;
+}
+.drawer-icon-btn:hover{background:var(--accent);border-color:var(--brand);color:var(--brand);transform:translateY(-1px)}
+.drawer-icon-btn .mi{font-size:18px}
 
 /* ===== FAB NAVIGATION (≤860px) ===== */
 .fab-nav{display:none;position:fixed;right:18px;bottom:24px;z-index:1080}
@@ -585,7 +595,7 @@ footer.page-footer a:hover{text-decoration:underline}
   .mobile-nav{display:none!important}
   /* 헤더 액션 숨기고 햄버거만 표시 */
   .head-actions{display:none}
-  .hdr-hamburger{display:flex}
+  .hdr-hamburger{display:flex;margin-left:auto}
   /* FAB 내비게이션 표시 */
   .fab-nav{display:block}
   .wrap{padding:0 12px;gap:8px}
@@ -688,10 +698,10 @@ footer.page-footer a:hover{text-decoration:underline}
   <div class="drawer-divider"></div>
   <div class="drawer-section-label">기능</div>
   <div class="drawer-actions">
-    <button class="drawer-action-btn" data-action="exportOpen"><span class="mi">file_download</span>백업 저장</button>
-    <button class="drawer-action-btn" data-action="openFile"><span class="mi">folder_open</span>파일 열기</button>
-    <button class="drawer-action-btn" data-action="share"><span class="mi">share</span>공유 링크</button>
-    <button class="drawer-action-btn" data-action="reset"><span class="mi">restart_alt</span>초기화</button>
+    <button class="drawer-icon-btn" data-action="exportOpen" data-tip="백업 저장" aria-label="백업 저장"><span class="mi">file_download</span></button>
+    <button class="drawer-icon-btn" data-action="openFile" data-tip="파일 열기" aria-label="파일 열기"><span class="mi">folder_open</span></button>
+    <button class="drawer-icon-btn" data-action="share" data-tip="공유 링크" aria-label="공유 링크"><span class="mi">share</span></button>
+    <button class="drawer-icon-btn" data-action="reset" data-tip="초기화" aria-label="초기화"><span class="mi">restart_alt</span></button>
   </div>
 </div>
 
