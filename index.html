@@ -333,7 +333,7 @@ input[type="text"]:focus,textarea:focus,select:focus{
 .model-row .muted{text-align:left;display:block;margin-top:3px}
 
 /* ===== CANVAS ===== */
-.canvas-wrap{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:16px;align-items:start}
+.canvas-wrap{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:16px;align-items:start}
 .canvas-box{
   border:1.5px solid var(--border);border-radius:var(--radius-sm);
   overflow:hidden;background:#fff;position:relative;
@@ -341,17 +341,39 @@ input[type="text"]:focus,textarea:focus,select:focus{
 canvas{display:block;width:100%;height:var(--canvas-h,0px);background:#fff;touch-action:none}
 .tools{
   border:1px solid var(--border);border-radius:var(--radius-sm);
-  padding:16px;background:var(--step-bg);position:relative;
+  padding:14px;background:var(--step-bg);
+  display:flex;flex-direction:column;gap:12px;
 }
 [data-theme="dark"] .tools{background:var(--accent)}
-.tool-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0}
-.tool-row:first-child{margin-top:0}
-.tool-row label{margin-bottom:0;font-size:.85rem}
-.tool-row input[type="color"]{
-  width:44px;height:36px;padding:2px;
+/* header row: title + mode icons */
+.tool-header{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.tool-header b{font-size:.875rem;font-weight:700}
+.tool-modes{display:flex;gap:3px;flex-shrink:0}
+.tool-icon-btn{
+  width:32px;height:32px;padding:0;
+  border-radius:var(--radius-xs);justify-content:center;flex-shrink:0;
+}
+.tool-icon-btn.active-tool{
+  background:var(--btn-primary);border-color:transparent;color:#fff;
+  box-shadow:0 2px 8px rgba(99,102,241,.35);
+}
+/* color + size */
+.tool-controls{display:flex;align-items:flex-end;gap:10px}
+.tool-ctrl-item{display:flex;flex-direction:column;gap:5px;min-width:0}
+.tool-ctrl-item label{margin-bottom:0;font-size:.8rem;white-space:nowrap}
+.tool-ctrl-item.grow{flex:1}
+.tool-ctrl-item input[type="color"]{
+  width:38px;height:32px;padding:2px;
   border:1.5px solid var(--border);border-radius:var(--radius-xs);
   background:var(--card);cursor:pointer;
 }
+.tool-ctrl-item input[type="range"]{width:100%;margin:0}
+.size-val{font-size:.8rem;font-weight:700;color:var(--brand);min-width:16px;text-align:right}
+/* upload row */
+.tool-upload{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+/* legacy compat */
+.tool-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tool-row label{margin-bottom:0;font-size:.85rem}
 
 /* ===== MOBILE NAV ===== */
 .mobile-nav{display:none}
@@ -671,20 +693,42 @@ footer.page-footer a:hover{text-decoration:underline}
           <div class="canvas-wrap">
             <div class="canvas-box"><canvas id="brandCanvas" width="1920" height="1080"></canvas></div>
             <div class="tools" id="toolsBox">
-              <div class="tool-row"><b data-i18n="draw_tools">그리기 도구</b></div>
-              <div class="tool-row"><label data-i18n="brush_color">브러시 색</label><input type="color" id="brushColor" value="#111827" /></div>
-              <div class="tool-row"><label data-i18n="brush_size">브러시 굵기</label><input type="range" id="brushSize" min="1" max="80" value="6" /><span id="brushSizeVal">6</span></div>
-              <div class="tool-row">
-                <button class="btn" data-action="drawMode:draw"><span class="mi" aria-hidden="true">draw</span><span data-i18n="mode_draw">펜</span></button>
-                <button class="btn" data-action="drawMode:erase"><span class="mi" aria-hidden="true">backspace</span><span data-i18n="mode_erase">지우개</span></button>
-                <button class="btn" data-action="clearCanvas"><span class="mi" aria-hidden="true">delete_sweep</span><span data-i18n="clear_canvas">캔버스 지우기</span></button>
+              <!-- 헤더: 제목 + 모드 아이콘 -->
+              <div class="tool-header">
+                <b data-i18n="draw_tools">그리기 도구</b>
+                <div class="tool-modes">
+                  <button class="btn tool-icon-btn active-tool" id="btnDraw" data-action="drawMode:draw" title="펜" aria-label="펜">
+                    <span class="mi" aria-hidden="true">draw</span>
+                  </button>
+                  <button class="btn tool-icon-btn" id="btnErase" data-action="drawMode:erase" title="지우개" aria-label="지우개">
+                    <span class="mi" aria-hidden="true">backspace</span>
+                  </button>
+                  <button class="btn tool-icon-btn" data-action="clearCanvas" title="캔버스 지우기" aria-label="캔버스 지우기">
+                    <span class="mi" aria-hidden="true">delete_sweep</span>
+                  </button>
+                </div>
               </div>
-              <div class="tool-row">
-                <label class="btn" id="fileBtn" data-action="clickUpload"><span class="mi" aria-hidden="true">upload_file</span><span id="fileBtnLabel">파일 선택</span></label>
-                <span class="muted" id="fileName" data-i18n="no_file">선택된 파일 없음</span>
+              <!-- 색상 + 굵기 -->
+              <div class="tool-controls">
+                <div class="tool-ctrl-item">
+                  <label data-i18n="brush_color">브러시 색</label>
+                  <input type="color" id="brushColor" value="#111827" />
+                </div>
+                <div class="tool-ctrl-item grow">
+                  <label data-i18n="brush_size">굵기 <span class="size-val" id="brushSizeVal">6</span></label>
+                  <input type="range" id="brushSize" min="1" max="80" value="6" />
+                </div>
+              </div>
+              <!-- 이미지 업로드 -->
+              <div class="tool-upload">
+                <label class="btn" id="fileBtn" data-action="clickUpload" style="padding:7px 12px;border-radius:99px">
+                  <span class="mi" aria-hidden="true">upload_file</span>
+                  <span id="fileBtnLabel">파일 선택</span>
+                </label>
+                <span class="muted" id="fileName" data-i18n="no_file" style="font-size:.8rem">선택된 파일 없음</span>
                 <input type="file" id="imgUpload" accept="image/*" style="display:none" />
               </div>
-              <div class="muted" id="canvasHint" style="display:none" data-i18n="canvas_hint">※ Drawing/uploads are automatically included in result/JSON.</div>
+              <div class="muted" id="canvasHint" style="display:none;font-size:.8rem" data-i18n="canvas_hint">※ Drawing/uploads are automatically included in result/JSON.</div>
             </div>
           </div>
         </div>
@@ -810,7 +854,7 @@ function canBind(){if(!canEnsure())return;const c=CAN.canvas,ctx=CAN.ctx;
   c.addEventListener("mousedown",start);c.addEventListener("mousemove",move);c.addEventListener("mouseup",end);c.addEventListener("mouseleave",end);
   c.addEventListener("touchstart",start,{passive:false});c.addEventListener("touchmove",move,{passive:false});c.addEventListener("touchend",end);
 }
-function syncCanvasLayout(){const canvas=$("#brandCanvas"),tools=$("#toolsBox");if(!canvas||!tools)return;const box=canvas.parentElement,w=box.clientWidth||canvas.clientWidth,h=Math.round(w*9/16);canvas.style.setProperty('--canvas-h',h+'px');tools.style.minHeight=h+'px';}
+function syncCanvasLayout(){const canvas=$("#brandCanvas");if(!canvas)return;const box=canvas.parentElement,w=box.clientWidth||canvas.clientWidth,h=Math.round(w*9/16);canvas.style.setProperty('--canvas-h',h+'px');}
 function closeAllDrops(){$$(".drop-menu").forEach(m=>m.classList.remove("open"));}
 document.addEventListener("click",(e)=>{
   if(!e.target.closest(".hdr-drop"))closeAllDrops();
@@ -833,7 +877,7 @@ document.addEventListener("click",(e)=>{
     if(type==="refreshPreview"){refreshPreview();}
     if(type==="copyTxt"){navigator.clipboard.writeText(toTxt(getState()));}
     if(type==="clearCanvas"){if(!canEnsure())return;CAN.ctx.clearRect(0,0,CAN.canvas.width,CAN.canvas.height);STATE.brandCanvasData=CAN.canvas.toDataURL("image/png");localSave();}
-    if(type==="drawMode"){CAN.mode=arg;}
+    if(type==="drawMode"){CAN.mode=arg;const bd=$("#btnDraw"),be=$("#btnErase");if(bd)bd.classList.toggle("active-tool",arg==="draw");if(be)be.classList.toggle("active-tool",arg==="erase");}
     if(type==="clickUpload"){$("#imgUpload").click();}
     if(type==="openStd"){const sw=Math.min(1080,screen.availWidth-40),sh=Math.min(820,screen.availHeight-60),sl=Math.round((screen.availWidth-sw)/2),st=Math.round((screen.availHeight-sh)/2);window.open("https://ssdguide.chichiboo.link/","ssdguide",`width=${sw},height=${sh},left=${sl},top=${st},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no`);}
     e.preventDefault();
