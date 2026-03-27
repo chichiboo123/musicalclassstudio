@@ -389,6 +389,30 @@ canvas{display:block;width:100%;height:var(--canvas-h,0px);background:#fff;touch
 .tool-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .tool-row label{margin-bottom:0;font-size:.85rem}
 
+/* ===== SUBNAV (tablet · laptop: 861–1160px) ===== */
+.subnav{
+  display:none;
+  position:sticky;top:var(--header-h);z-index:900;
+  background:var(--panel);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  padding:7px 16px;gap:5px;flex-wrap:wrap;justify-content:center;
+  box-shadow:0 2px 8px rgba(15,23,42,.04);
+}
+.subnav-chip{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 12px;border:1px solid var(--border);border-radius:99px;
+  background:var(--card);color:var(--muted);font-weight:600;font-size:.78rem;
+  cursor:pointer;transition:all var(--ease);font-family:inherit;box-shadow:var(--shadow-soft);
+}
+.subnav-chip:hover{background:var(--accent);border-color:var(--brand);color:var(--brand)}
+.subnav-chip .mi{font-size:15px}
+.subnav-chip .num{
+  display:inline-grid;place-items:center;width:18px;height:18px;
+  border-radius:5px;background:var(--step-bg);color:var(--brand);
+  font-size:.68rem;font-weight:700;flex-shrink:0;
+}
+
 /* ===== MOBILE NAV ===== */
 .mobile-nav{display:none}
 .mobile-nav .chips{
@@ -473,6 +497,8 @@ footer.page-footer a:hover{text-decoration:underline}
 }
 
 /* ===== RESPONSIVE ===== */
+
+/* ── 태블릿·랩탑 (사이드바 없는 구간): ≤1160px ── */
 @media (max-width:1160px){
   :root{--header-h:58px}
   .logo-img{height:36px}
@@ -481,6 +507,28 @@ footer.page-footer a:hover{text-decoration:underline}
   .canvas-wrap{grid-template-columns:1fr}
   .head-actions .label{display:none}
   .head-actions .btn{padding:8px 11px}
+  /* 서브내비 활성 — 하단 플로팅 바 대신 상단에 붙은 탭 방식 */
+  body{padding-top:calc(var(--header-h) + 44px)}
+  .subnav{display:flex}
+}
+
+/* ── 모바일: ≤860px ── */
+@media (max-width:860px){
+  :root{--header-h:54px}
+  body{font-size:15px;padding-bottom:100px;padding-top:var(--header-h)}
+  .subnav{display:none}
+  .wrap{padding:0 14px;gap:8px}
+  .logo-img{height:32px}
+  .layout{margin:12px auto;gap:14px;padding:0 12px 40px}
+  .card .head{padding:14px 16px 12px}
+  .card .body{padding:14px 16px;gap:14px}
+  .grid-2,.grid-3{grid-template-columns:1fr;gap:12px}
+  .head-actions{gap:6px}
+  button,.btn{padding:8px 12px;font-size:.84rem}
+  input[type="text"],textarea,select{font-size:16px}
+  .activity-col{padding:12px}
+  .card .head h2{font-size:.9375rem}
+  /* 하단 플로팅 내비 — 모바일 전용 */
   .mobile-nav{
     display:flex;position:fixed;
     left:12px;right:12px;
@@ -494,21 +542,8 @@ footer.page-footer a:hover{text-decoration:underline}
   }
   .mobile-nav .chips{max-width:calc(100% - 58px)}
 }
-@media (max-width:860px){
-  :root{--header-h:54px}
-  body{font-size:15px;padding-bottom:100px}
-  .wrap{padding:0 14px;gap:8px}
-  .logo-img{height:32px}
-  .layout{margin:12px auto;gap:14px;padding:0 12px 40px}
-  .card .head{padding:14px 16px 12px}
-  .card .body{padding:14px 16px;gap:14px}
-  .grid-2,.grid-3{grid-template-columns:1fr;gap:12px}
-  .head-actions{gap:6px}
-  button,.btn{padding:8px 12px;font-size:.84rem}
-  input[type="text"],textarea,select{font-size:16px}
-  .activity-col{padding:12px}
-  .card .head h2{font-size:.9375rem}
-}
+
+/* ── 소형 모바일: ≤480px ── */
 @media (max-width:480px){
   .mobile-nav{left:8px;right:8px;padding:8px 10px}
   .mobile-nav .chip{padding:7px 10px;font-size:.78rem}
@@ -581,6 +616,18 @@ footer.page-footer a:hover{text-decoration:underline}
     </div>
   </div>
 </header>
+
+<!-- 서브내비: 태블릿·랩탑 전용 (≤1160px, >860px) — 스크롤 없는 래핑 탭 -->
+<nav class="subnav no-print" id="subnav" aria-label="단계 내비게이션">
+  <button class="subnav-chip js-nav" data-target="meta"><span class="num">0</span><span class="mi" aria-hidden="true">assignment</span><span data-i18n="nav0">프로젝트 정보</span></button>
+  <button class="subnav-chip js-nav" data-target="s1"><span class="num">1</span><span class="mi" aria-hidden="true">auto_awesome</span><span data-i18n="nav1">자유로운 상상</span></button>
+  <button class="subnav-chip js-nav" data-target="s2"><span class="num">2</span><span class="mi" aria-hidden="true">fact_check</span><span data-i18n="nav2">수업 모델 선정</span></button>
+  <button class="subnav-chip js-nav" data-target="s3"><span class="num">3</span><span class="mi" aria-hidden="true">hub</span><span data-i18n="nav3">구성 요소 선정</span></button>
+  <button class="subnav-chip js-nav" data-target="s4"><span class="num">4</span><span class="mi" aria-hidden="true">school</span><span data-i18n="nav4">교육과정 연계</span></button>
+  <button class="subnav-chip js-nav" data-target="s5"><span class="num">5</span><span class="mi" aria-hidden="true">view_kanban</span><span data-i18n="nav5">수업 활동 구성</span></button>
+  <button class="subnav-chip js-nav" data-target="s6"><span class="num">6</span><span class="mi" aria-hidden="true">palette</span><span data-i18n="nav6">자료탐색/브랜딩</span></button>
+  <button class="subnav-chip js-nav" data-target="preview"><span class="num">✓</span><span class="mi" aria-hidden="true">preview</span><span data-i18n="nav7">미리보기</span></button>
+</nav>
 
 <div class="mobile-nav no-print" id="mnav">
   <div class="chips">
@@ -750,7 +797,17 @@ footer.page-footer a:hover{text-decoration:underline}
     </section>
 
     <section class="card section" id="preview">
-      <div class="head"><h2 data-i18n="preview">결과 미리보기</h2></div>
+      <div class="head">
+        <h2 data-i18n="preview">결과 미리보기</h2>
+        <div class="no-print" style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn" data-action="refreshPreview" data-tip="미리보기 최신화" aria-label="미리보기 최신화" style="padding:7px 10px">
+            <span class="mi" aria-hidden="true">published_with_changes</span>
+          </button>
+          <button class="btn" data-action="copyTxt" data-tip="텍스트 복사" aria-label="미리보기 텍스트 복사" style="padding:7px 10px">
+            <span class="mi" aria-hidden="true">content_copy</span>
+          </button>
+        </div>
+      </div>
       <div class="body">
         <div class="preview" id="previewBox">
           <div class="preview-header">
@@ -758,14 +815,6 @@ footer.page-footer a:hover{text-decoration:underline}
             <div id="pvMeta" class="muted"></div>
           </div>
           <div id="pvContent"></div>
-        </div>
-        <div class="preview-actions no-print">
-          <button class="btn" data-action="refreshPreview" data-tip="미리보기 최신화" aria-label="미리보기 최신화">
-            <span class="mi" aria-hidden="true">published_with_changes</span>
-          </button>
-          <button class="btn" data-action="copyTxt" data-tip="텍스트 복사" aria-label="미리보기 텍스트 복사">
-            <span class="mi" aria-hidden="true">content_copy</span>
-          </button>
         </div>
       </div>
     </section>
