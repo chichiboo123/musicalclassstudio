@@ -496,6 +496,46 @@ footer.page-footer a:hover{text-decoration:underline}
   .card{border:none;box-shadow:none}
 }
 
+/* ===== HAMBURGER / NAV DRAWER (≤860px) ===== */
+.hdr-hamburger{display:none;padding:8px 10px}
+.nav-drawer{
+  position:fixed;top:var(--header-h);left:0;right:0;z-index:1050;
+  background:var(--panel);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--border);box-shadow:var(--shadow);
+  padding:14px 16px 18px;
+  max-height:calc(100svh - var(--header-h));overflow-y:auto;
+  transform:translateY(-110%);opacity:0;
+  transition:transform .22s cubic-bezier(.4,0,.2,1),opacity .18s;
+  pointer-events:none;
+}
+.nav-drawer.open{transform:translateY(0);opacity:1;pointer-events:auto}
+.drawer-nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}
+.drawer-nav-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--card);color:var(--muted);font-weight:600;font-size:.82rem;
+  cursor:pointer;transition:all var(--ease);font-family:inherit;text-align:left;
+}
+.drawer-nav-btn:hover{background:var(--accent);border-color:var(--brand);color:var(--brand)}
+.drawer-nav-btn .num{
+  display:inline-grid;place-items:center;width:20px;height:20px;
+  border-radius:5px;background:var(--step-bg);color:var(--brand);
+  font-size:.7rem;font-weight:700;flex-shrink:0;
+}
+.drawer-nav-btn .mi{font-size:16px;flex-shrink:0}
+.drawer-actions{display:flex;flex-wrap:wrap;gap:7px;padding-top:12px;border-top:1px solid var(--border)}
+.drawer-action-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 13px;border:1px solid var(--border);border-radius:99px;
+  background:var(--btn-grad);color:var(--text);font-weight:600;font-size:.84rem;
+  cursor:pointer;font-family:inherit;transition:all var(--ease);box-shadow:var(--shadow-soft);
+}
+.drawer-action-btn:hover{background:var(--accent);border-color:var(--brand);color:var(--brand)}
+.drawer-action-btn .mi{font-size:17px}
+.drawer-action-btn.active-lang{color:var(--brand);border-color:var(--brand);background:var(--accent)}
+
 /* ===== RESPONSIVE ===== */
 
 /* ── 태블릿·랩탑 (사이드바 없는 구간): ≤1160px ── */
@@ -507,51 +547,39 @@ footer.page-footer a:hover{text-decoration:underline}
   .canvas-wrap{grid-template-columns:1fr}
   .head-actions .label{display:none}
   .head-actions .btn{padding:8px 11px}
-  /* 서브내비 활성 — 하단 플로팅 바 대신 상단에 붙은 탭 방식 */
   body{padding-top:calc(var(--header-h) + 44px)}
   .subnav{display:flex}
 }
 
-/* ── 모바일: ≤860px ── */
+/* ── 좁은 화면 (PC 소창 · 모바일): ≤860px — 햄버거 토글 ── */
 @media (max-width:860px){
-  :root{--header-h:54px}
-  body{font-size:15px;padding-bottom:100px;padding-top:var(--header-h)}
-  .subnav{display:none}
-  .wrap{padding:0 14px;gap:8px}
-  .logo-img{height:32px}
-  .layout{margin:12px auto;gap:14px;padding:0 12px 40px}
+  :root{--header-h:52px}
+  body{font-size:15px;padding-top:var(--header-h);padding-bottom:24px}
+  .subnav{display:none!important}
+  .mobile-nav{display:none!important}
+  /* 헤더 액션 숨기고 햄버거만 표시 */
+  .head-actions{display:none}
+  .hdr-hamburger{display:flex}
+  .wrap{padding:0 12px;gap:8px}
+  .logo-img{height:30px}
+  .layout{margin:12px auto;gap:14px;padding:0 12px 32px}
   .card .head{padding:14px 16px 12px}
   .card .body{padding:14px 16px;gap:14px}
   .grid-2,.grid-3{grid-template-columns:1fr;gap:12px}
-  .head-actions{gap:6px}
   button,.btn{padding:8px 12px;font-size:.84rem}
   input[type="text"],textarea,select{font-size:16px}
   .activity-col{padding:12px}
   .card .head h2{font-size:.9375rem}
-  /* 하단 플로팅 내비 — 모바일 전용 */
-  .mobile-nav{
-    display:flex;position:fixed;
-    left:12px;right:12px;
-    bottom:calc(12px + env(safe-area-inset-bottom));
-    z-index:1100;
-    background:var(--panel);border:1px solid var(--border);
-    border-radius:20px;box-shadow:var(--shadow);
-    padding:10px 12px;align-items:center;justify-content:space-between;
-    backdrop-filter:blur(24px) saturate(180%);
-    -webkit-backdrop-filter:blur(24px) saturate(180%);
-  }
-  .mobile-nav .chips{max-width:calc(100% - 58px)}
 }
 
-/* ── 소형 모바일: ≤480px ── */
+/* ── 소형: ≤480px ── */
 @media (max-width:480px){
-  .mobile-nav{left:8px;right:8px;padding:8px 10px}
-  .mobile-nav .chip{padding:7px 10px;font-size:.78rem}
   .card{border-radius:14px}
   .card .head{padding:12px 14px 10px}
   .card .body{padding:12px 14px}
   .seg button{padding:5px 8px;font-size:.76rem}
-  .wrap{padding:0 12px}
+  .wrap{padding:0 10px}
+  .drawer-nav-grid{grid-template-columns:1fr}
 }
 
 </style>
@@ -563,10 +591,10 @@ footer.page-footer a:hover{text-decoration:underline}
       <img id="siteLogo" class="logo-img" src="https://i.ibb.co/fgrZqfM/001-6.png" alt="뮤지컬 수업 스튜디오 로고" />
       <span class="sr-only">뮤지컬 수업 스튜디오</span>
     </div>
+    <!-- 넓은 화면 액션 버튼 (≤860px에서 숨김) -->
     <div class="head-actions">
       <input id="jsonUpload" type="file" accept=".json" style="display:none" />
 
-      <!-- 파일: 백업저장 + 열기 통합 드롭다운 -->
       <div class="hdr-drop" id="fileDrop">
         <button class="btn" data-action="toggleDrop:fileDrop" aria-label="파일" title="파일 백업/열기">
           <span class="mi" aria-hidden="true">folder_managed</span>
@@ -582,23 +610,13 @@ footer.page-footer a:hover{text-decoration:underline}
         </div>
       </div>
 
-      <!-- 공유 -->
       <button class="btn" data-action="share" aria-label="공유 링크 복사" title="공유 링크 복사">
         <span class="mi" aria-hidden="true">share</span>
       </button>
-
-      <!-- 초기화 -->
       <button class="btn" data-action="reset" aria-label="초기화" title="초기화">
         <span class="mi" aria-hidden="true">restart_alt</span>
       </button>
 
-      <!-- 테마 -->
-      <div class="seg" title="Theme">
-        <button data-action="theme:dark"><span class="mi" aria-hidden="true">dark_mode</span><span class="sr-only">Dark mode</span></button>
-        <button data-action="theme:light" class="active"><span class="mi" aria-hidden="true">light_mode</span><span class="sr-only">Light mode</span></button>
-      </div>
-
-      <!-- 언어 드롭다운 -->
       <div class="hdr-drop" id="langDrop">
         <button class="btn" data-action="toggleDrop:langDrop" aria-label="언어 선택" title="언어 선택">
           <span class="mi" aria-hidden="true">translate</span>
@@ -614,8 +632,41 @@ footer.page-footer a:hover{text-decoration:underline}
         </div>
       </div>
     </div>
+
+    <!-- 테마 토글: 항상 표시 -->
+    <div class="seg" title="Theme">
+      <button data-action="theme:dark"><span class="mi" aria-hidden="true">dark_mode</span><span class="sr-only">Dark mode</span></button>
+      <button data-action="theme:light" class="active"><span class="mi" aria-hidden="true">light_mode</span><span class="sr-only">Light mode</span></button>
+    </div>
+
+    <!-- 햄버거: ≤860px 전용 -->
+    <button class="btn hdr-hamburger no-print" id="hamburgerBtn" data-action="toggleNav" aria-label="메뉴" title="메뉴">
+      <span class="mi" aria-hidden="true">menu</span>
+    </button>
   </div>
 </header>
+
+<!-- 햄버거 드로어: ≤860px 전용 — 단계이동 + 액션 통합 -->
+<div class="nav-drawer no-print" id="navDrawer" aria-hidden="true">
+  <div class="drawer-nav-grid">
+    <button class="drawer-nav-btn js-nav" data-target="meta"><span class="num">0</span><span class="mi" aria-hidden="true">assignment</span><span data-i18n="nav0">프로젝트 정보</span></button>
+    <button class="drawer-nav-btn js-nav" data-target="s1"><span class="num">1</span><span class="mi" aria-hidden="true">auto_awesome</span><span data-i18n="nav1">자유로운 상상</span></button>
+    <button class="drawer-nav-btn js-nav" data-target="s2"><span class="num">2</span><span class="mi" aria-hidden="true">fact_check</span><span data-i18n="nav2">수업 모델 선정</span></button>
+    <button class="drawer-nav-btn js-nav" data-target="s3"><span class="num">3</span><span class="mi" aria-hidden="true">hub</span><span data-i18n="nav3">구성 요소 선정</span></button>
+    <button class="drawer-nav-btn js-nav" data-target="s4"><span class="num">4</span><span class="mi" aria-hidden="true">school</span><span data-i18n="nav4">교육과정 연계</span></button>
+    <button class="drawer-nav-btn js-nav" data-target="s5"><span class="num">5</span><span class="mi" aria-hidden="true">view_kanban</span><span data-i18n="nav5">수업 활동 구성</span></button>
+    <button class="drawer-nav-btn js-nav" data-target="s6"><span class="num">6</span><span class="mi" aria-hidden="true">palette</span><span data-i18n="nav6">자료탐색/브랜딩</span></button>
+    <button class="drawer-nav-btn js-nav" data-target="preview"><span class="num">✓</span><span class="mi" aria-hidden="true">preview</span><span data-i18n="nav7">미리보기</span></button>
+  </div>
+  <div class="drawer-actions">
+    <button class="drawer-action-btn" data-action="exportOpen"><span class="mi">file_download</span>백업 저장</button>
+    <button class="drawer-action-btn" data-action="openFile"><span class="mi">folder_open</span>파일 열기</button>
+    <button class="drawer-action-btn" data-action="share"><span class="mi">share</span>공유 링크</button>
+    <button class="drawer-action-btn" data-action="reset"><span class="mi">restart_alt</span>초기화</button>
+    <button class="drawer-action-btn active-lang" data-action="lang:KOR" id="drawerLangKOR"><span class="mi">translate</span>한국어</button>
+    <button class="drawer-action-btn" data-action="lang:ENG" id="drawerLangENG"><span class="mi">language</span>English</button>
+  </div>
+</div>
 
 <!-- 서브내비: 태블릿·랩탑 전용 (≤1160px, >860px) — 스크롤 없는 래핑 탭 -->
 <nav class="subnav no-print" id="subnav" aria-label="단계 내비게이션">
@@ -923,12 +974,15 @@ function canBind(){if(!canEnsure())return;const c=CAN.canvas,ctx=CAN.ctx;
 }
 function syncCanvasLayout(){const canvas=$("#brandCanvas");if(!canvas)return;const box=canvas.parentElement,w=box.clientWidth||canvas.clientWidth,h=Math.round(w*9/16);canvas.style.setProperty('--canvas-h',h+'px');}
 function closeAllDrops(){$$(".drop-menu").forEach(m=>m.classList.remove("open"));}
+function closeNavDrawer(){const d=$("#navDrawer");if(d){d.classList.remove("open");d.setAttribute("aria-hidden","true");}const b=$("#hamburgerBtn");if(b)b.querySelector(".mi").textContent="menu";}
 document.addEventListener("click",(e)=>{
   if(!e.target.closest(".hdr-drop"))closeAllDrops();
+  if(!e.target.closest("#navDrawer")&&!e.target.closest("#hamburgerBtn"))closeNavDrawer();
   const actEl=e.target.closest("[data-action]");
   if(actEl){
     const [type,arg]=(actEl.getAttribute("data-action")||"").split(":");
     if(type==="toggleDrop"){const menu=document.getElementById(arg+"Menu");const wasOpen=menu.classList.contains("open");closeAllDrops();if(!wasOpen)menu.classList.add("open");return;}
+    if(type==="toggleNav"){const d=$("#navDrawer"),isOpen=d.classList.toggle("open");d.setAttribute("aria-hidden",String(!isOpen));const b=$("#hamburgerBtn");if(b)b.querySelector(".mi").textContent=isOpen?"close":"menu";return;}
     if(type==="home"){const base=location.href.split('#')[0];location.href=base;}
     if(type==="openRefs"){const modal=$("#refModal"),body=$("#refModalBody");const tmp=$("#refsBox")?.cloneNode(true);if(tmp){tmp.querySelector('h4')?.remove();body.innerHTML=tmp.innerHTML;}modal.style.display="grid";}
     if(type==="closeRefs"){$("#refModal").style.display="none";}
@@ -939,7 +993,7 @@ document.addEventListener("click",(e)=>{
     if(type==="openFile"){$("#jsonUpload").click();}
     if(type==="reset"){if(confirm(LANG==="KOR"?"정말 모든 내용을 초기화할까요? (되돌릴 수 없음)":"Reset all? (This cannot be undone)")){STATE=defaultState();setState(STATE);localSave();toast(LANG==="KOR"?"초기화 완료":"Reset complete");}}
     if(type==="theme"){THEME=arg;document.documentElement.setAttribute("data-theme",THEME);$("[data-action='theme:dark']").classList.toggle("active",THEME==="dark");$("[data-action='theme:light']").classList.toggle("active",THEME==="light");localStorage.setItem("mss-theme",THEME);}
-    if(type==="lang"){LANG=(arg==="ENG"?"ENG":"KOR");const ll=$("#langLabel");if(ll)ll.textContent=LANG;const ki=$("#langItemKOR"),ei=$("#langItemENG");if(ki)ki.classList.toggle("active-lang",LANG==="KOR");if(ei)ei.classList.toggle("active-lang",LANG==="ENG");closeAllDrops();applyI18n();refreshPreview();}
+    if(type==="lang"){LANG=(arg==="ENG"?"ENG":"KOR");const ll=$("#langLabel");if(ll)ll.textContent=LANG;const ki=$("#langItemKOR"),ei=$("#langItemENG");if(ki)ki.classList.toggle("active-lang",LANG==="KOR");if(ei)ei.classList.toggle("active-lang",LANG==="ENG");const dk=$("#drawerLangKOR"),de=$("#drawerLangENG");if(dk)dk.classList.toggle("active-lang",LANG==="KOR");if(de)de.classList.toggle("active-lang",LANG==="ENG");closeAllDrops();closeNavDrawer();applyI18n();refreshPreview();}
     if(type==="addAct"){STATE.acts[arg].push("");renderActs(arg);localSave();}
     if(type==="refreshPreview"){refreshPreview();}
     if(type==="copyTxt"){navigator.clipboard.writeText(toTxt(getState()));}
@@ -950,7 +1004,7 @@ document.addEventListener("click",(e)=>{
     e.preventDefault();
   }
   const nav=e.target.closest(".js-nav");
-  if(nav){document.getElementById(nav.dataset.target)?.scrollIntoView({behavior:"smooth",block:"start"});e.preventDefault();}
+  if(nav){document.getElementById(nav.dataset.target)?.scrollIntoView({behavior:"smooth",block:"start"});closeNavDrawer();e.preventDefault();}
 });
 document.addEventListener("input",(e)=>{const id=(e.target||{}).id||"";if(id==="brushSize"){$("#brushSizeVal").textContent=e.target.value;return;}if(id==="imgUpload")return;localSave();});
 $("#imgUpload").addEventListener("change",(e)=>{const f=e.target.files[0];if(!f||!canEnsure())return;$("#fileName").textContent=f.name||t("no_file");const img=new Image();img.onload=()=>{CAN.ctx.drawImage(img,0,0,CAN.canvas.width,CAN.canvas.height);STATE.brandCanvasData=CAN.canvas.toDataURL("image/png");localSave();};const r=new FileReader();r.onload=()=>img.src=r.result;r.readAsDataURL(f);});
